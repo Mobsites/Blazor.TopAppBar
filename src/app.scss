@@ -4,6 +4,10 @@
     background-color: var(--mdc-theme-primary, #052561);
 }
 
+.mdc-top-app-bar--fixed {
+    top: 0px;
+}
+
 .mdc-top-app-bar__title span {
     vertical-align: middle!important;
 }
