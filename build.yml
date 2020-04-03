@@ -2,17 +2,17 @@
 # Licensed under the MIT License. See License.txt in the project root for license information.
 
 trigger:
-- master
+  - master
 
 pool:
-    vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
 
 # Specify a particular version of the .NET SDK
 - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk'
-    inputs:
+  displayName: 'Use .NET Core sdk'
+  inputs:
     packageType: sdk
     version: 3.1.201
     installationPath: $(Agent.ToolsDirectory)/dotnet
@@ -25,5 +25,5 @@ steps:
 
 # Create the NuGet package file
 - script: dotnet pack --configuration Release
-    workingDirectory: src
-    displayName: Pack Src
+  workingDirectory: src
+  displayName: Pack Src

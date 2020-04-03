@@ -72,14 +72,34 @@ namespace Mobsites.Blazor
             Fixed,
 
             /// <summary>
-            /// Prominent <see cref="TopAppBar"> appears taller and scrolls up with the rest of the content and immediately reappears when scrolling down.
+            /// Prominent <see cref="TopAppBar"> appears taller than standard but functions the same.
             /// </summary>
             Prominent,
 
             /// <summary>
-            /// Dense <see cref="TopAppBar"> appears shorter and scrolls up with the rest of the content and immediately reappears when scrolling down.
+            /// Fixed Prominent <see cref="TopAppBar"> appears taller than fixed but functions the same.
+            /// </summary>
+            FixedProminent,
+
+            /// <summary>
+            /// Dense <see cref="TopAppBar"> appears shorter than standard but functions the same.
             /// </summary>
             Dense,
+
+            /// <summary>
+            /// Fixed Dense <see cref="TopAppBar"> appears shorter than fixed but functions the same.
+            /// </summary>
+            FixedDense,
+
+            /// <summary>
+            /// Prominent Dense <see cref="TopAppBar"> appears taller than standard and shorter than prominent but functions the same.
+            /// </summary>
+            ProminentDense,
+
+            /// <summary>
+            /// Fixed Prominent Dense <see cref="TopAppBar"> appears taller than fixed and shorter than fixed prominent but functions the same.
+            /// </summary>
+            FixedProminentDense,
 
             /// <summary>
             /// Short <see cref="TopAppBar"> collapses to the navigation icon side when scrolling.
@@ -119,7 +139,11 @@ namespace Mobsites.Blazor
             Types.Standard => "mdc-top-app-bar--fixed-adjust",
             Types.Fixed => "mdc-top-app-bar--fixed-adjust",
             Types.Prominent => "mdc-top-app-bar--prominent-fixed-adjust",
+            Types.FixedProminent => "mdc-top-app-bar--prominent-fixed-adjust",
             Types.Dense => "mdc-top-app-bar--dense-fixed-adjust",
+            Types.FixedDense => "mdc-top-app-bar--dense-fixed-adjust",
+            Types.ProminentDense => "mdc-top-app-bar--prominent-dense-fixed-adjust",
+            Types.FixedProminentDense => "mdc-top-app-bar--prominent-dense-fixed-adjust",
             Types.Short => "mdc-top-app-bar--short-fixed-adjust",
             Types.ShortAlways => "mdc-top-app-bar--short-fixed-adjust",
             _ => null
