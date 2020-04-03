@@ -1,0 +1,239 @@
+@page "/"
+
+<h1>Blazor Top App Bar</h1>
+<h2 class="pl-5">by <img src="mobsites-logo.png" width="42" height="42" /> Mobsites</h2>
+<br />
+<form>
+  <div class="row">
+    <div class="col col-md-6 col-lg-4">
+      <div class="form-group">
+        <label for="top-app-bar-type">Select Type</label>
+        <select class="form-control" id="top-app-bar-type" aria-valuenow="@MainLayout.TopAppBarType" @oninput="@((e) => MainLayout.NavMenu.ChangeType(Enum.Parse<TopAppBar.Types>(e.Value as string)))">
+          <option value="@TopAppBar.Types.Standard" selected=@(MainLayout.TopAppBarType == TopAppBar.Types.Standard ? true : false)>Standard</option>
+          <option value="@TopAppBar.Types.Fixed" selected=@(MainLayout.TopAppBarType == TopAppBar.Types.Fixed ? true : false)>Fixed</option>
+          <option value="@TopAppBar.Types.Prominent" selected=@(MainLayout.TopAppBarType == TopAppBar.Types.Prominent ? true : false)>Prominent</option>
+          <option value="@TopAppBar.Types.Dense" selected=@(MainLayout.TopAppBarType == TopAppBar.Types.Dense ? true : false)>Dense</option>
+          <option value="@TopAppBar.Types.Short" selected=@(MainLayout.TopAppBarType == TopAppBar.Types.Short ? true : false)>Short</option>
+          <option value="@TopAppBar.Types.ShortAlways" selected=@(MainLayout.TopAppBarType == TopAppBar.Types.ShortAlways ? true : false)>Short Always</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-md-6 col-lg-4">
+        <div class="form-group">
+            <label for="brand-title">Change Title</label>
+            <input class="form-control" id="brand-title" type="text" value="@MainLayout.BrandTitle" @oninput="@((e) => MainLayout.NavMenu.ChangeBrandTitle(e.Value as string))" />
+        </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col col-md-6 col-lg-4">
+        <div class="form-group form-check">
+            <input checked=@MainLayout.UseBrandImage type="checkbox" class="form-check-input" id="brand-image-use" @onchange="@((e) => MainLayout.NavMenu.UseBrandImage((bool)(e.Value as bool?)))" />
+            <label class="form-check-label" for="brand-image-use">Use brand image</label>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-md-6 col-lg-4">
+        <div class="form-group form-check">
+            <input checked=@MainLayout.ScrollToTop type="checkbox" class="form-check-input" id="scrolll-to-top" @onchange="@((e) => MainLayout.NavMenu.ScrollToTop((bool)(e.Value as bool?)))" />
+            <label class="form-check-label" for="scrolll-to-top">Scroll to top of page when nav icon is clicked</label>
+        </div>
+    </div>
+  </div>
+</form>
+<br />
+<b>On small devices:</b>
+<ul class="list-unstyled pl-4 mt-2">
+    <li>
+        <div class="form-group form-check">
+            <input checked=@MainLayout.HideBrandTitle type="checkbox" class="form-check-input" id="brand-title-hide" @onchange="@((e) => MainLayout.NavMenu.HideBrandTitle((bool)(e.Value as bool?)))" />
+            <label class="form-check-label" for="brand-title-hide">Hide brand title</label>
+        </div>
+    </li>
+    <li>
+        <div class="form-group form-check">
+            <input checked=@MainLayout.HideBrandImage type="checkbox" class="form-check-input" id="brand-image-hide" @onchange="@((e) => MainLayout.NavMenu.HideBrandImage((bool)(e.Value as bool?)))" />
+            <label class="form-check-label" for="brand-image-hide">Hide brand image</label>
+        </div>
+    </li>
+    <li>
+        <div class="form-group form-check">
+            <input checked=@MainLayout.ShowActionsAlways type="checkbox" class="form-check-input" id="show-actions-always" @onchange="@((e) => MainLayout.NavMenu.ShowActionsAlways((bool)(e.Value as bool?)))" />
+            <label class="form-check-label" for="show-actions-always">Show all actions</label>
+        </div>
+    </li>
+</ul>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>

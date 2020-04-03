@@ -1,0 +1,27 @@
+@inherits LayoutComponentBase
+
+<div class="sidebar">
+    <NavMenu @ref="NavMenu" />
+</div>
+
+<!-- Add adjustment class to prevent TopAppBar from hiding some of this content -->
+<div class="main @TopAppBar.AdjustmentMarkerClass">
+    @* <div class="top-row px-4">
+        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+    </div> *@
+    
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+@code {
+    public static NavMenu NavMenu { get; set; }
+    public static TopAppBar.Types TopAppBarType = TopAppBar.Types.Standard;
+    public static string BrandTitle { get; set; } = "Demo";
+    public static bool HideBrandTitle { get; set; }
+    public static bool UseBrandImage { get; set; } = true;
+    public static bool HideBrandImage { get; set; }
+    public static bool ScrollToTop { get; set; } = true;
+    public static bool ShowActionsAlways { get; set; }
+}

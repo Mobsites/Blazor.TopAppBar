@@ -1,17 +1,20 @@
 import {MDCTopAppBar} from '@material/top-app-bar';
 
-let initializedScrollToEvent = false;
-
 window.Blazor.TopAppBar = {
     init: function (options) {
-        window.Blazor.TopAppBar.self = new MDCTopAppBar(document.querySelector('.mdc-top-app-bar'));
-        window.Blazor.TopAppBar.Options = options;
+        // SPA only loads this file once, so check for existence before new-ing up another
+        if (!window.Blazor.TopAppBar.initialized) {
+            window.Blazor.TopAppBar.self = new MDCTopAppBar(document.querySelector('.mdc-top-app-bar'));
+            window.Blazor.TopAppBar.Options = options;
+            this.initEvents();
+            window.Blazor.TopAppBar.initialized = true;
+        }
         this.assignMissingMDCClasses();
         this.assignAdjustment();
-        this.initEvents();
     },
     refresh: function (options) {
         window.Blazor.TopAppBar.self.destroy();
+        window.Blazor.TopAppBar.initialized = false;
         this.init(options);
     },
     assignMissingMDCClasses: function () {
@@ -68,7 +71,7 @@ window.Blazor.TopAppBar = {
                 window.Blazor.TopAppBar.self.setScrollTarget(mainContent);
             }
         }
-        initializedScrollToEvent = initializedScrollToEvent || this.initScrollToEvent();
+        window.Blazor.TopAppBar.HasScrollToEvent = window.Blazor.TopAppBar.initializedScrollToEvent || this.initScrollToEvent();
     },
     initScrollToEvent: function () {
         const navigation_icon = document.querySelector('.mdc-top-app-bar__navigation-icon');

@@ -15,5 +15,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Blazor.TopAppBar.csproj" />
   </ItemGroup>
-
+  
 </Project>
