@@ -2,10 +2,9 @@ import { MDCTopAppBar } from "@material/top-app-bar";
 
 if (!window.Mobsites) {
 	window.Mobsites = {
-		
-	};
-	window.Mobsites.Blazor = {
+		Blazor: {
 
+		}
 	};
 }
 
@@ -18,10 +17,14 @@ window.Mobsites.Blazor.TopAppBar = {
 				document.querySelector(".mdc-top-app-bar")
 			);
 			window.Mobsites.Blazor.TopAppBar.initialized = true;
+			this.assignMissingMDCClasses();
+			this.assignAdjustment();
 			this.initEvents();
 		}
-		this.assignMissingMDCClasses();
-		this.assignAdjustment();
+		else {
+			this.assignMissingMDCClasses();
+			this.assignAdjustment();
+		}
 	},
 	refresh: function (options) {
 		if (options.type !== window.Mobsites.Blazor.TopAppBar.options.type) {
@@ -113,6 +116,7 @@ window.Mobsites.Blazor.TopAppBar = {
 				window.Mobsites.Blazor.TopAppBar.self.setScrollTarget(mainContent);
 			}
 		}
+		
 		window.Mobsites.Blazor.TopAppBar.hasScrollToEvent =
 			window.Mobsites.Blazor.TopAppBar.hasScrollToEvent ||
 			this.initScrollToEvent();
