@@ -1,5 +1,14 @@
 import { MDCTopAppBar } from "@material/top-app-bar";
 
+if (!window.Mobsites) {
+	window.Mobsites = {
+		
+	};
+	window.Mobsites.Blazor = {
+
+	};
+}
+
 window.Mobsites.Blazor.TopAppBar = {
 	init: function (options) {
 		window.Mobsites.Blazor.TopAppBar.options = options;

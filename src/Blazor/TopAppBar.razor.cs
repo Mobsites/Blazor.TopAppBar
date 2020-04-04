@@ -124,13 +124,13 @@ namespace Mobsites.Blazor
             if (firstRender)
             {
                 await jsRuntime.InvokeVoidAsync(
-                    "Blazor.TopAppBar.init",
+                    "Mobsites.Blazor.TopAppBar.init",
                     options);
             }
             else
             {
                 await jsRuntime.InvokeVoidAsync(
-                    "Blazor.TopAppBar.refresh",
+                    "Mobsites.Blazor.TopAppBar.refresh",
                     options);
             }
         }
