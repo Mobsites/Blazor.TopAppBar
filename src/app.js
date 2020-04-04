@@ -1,22 +1,24 @@
 import { MDCTopAppBar } from "@material/top-app-bar";
 
-window.Blazor.TopAppBar = {
+window.Mobsites.Blazor.TopAppBar = {
 	init: function (options) {
-		// SPA only loads this file once, so check for existence before new-ing up another
-		if (!window.Blazor.TopAppBar.initialized) {
-			window.Blazor.TopAppBar.self = new MDCTopAppBar(
+		window.Mobsites.Blazor.TopAppBar.options = options;
+		// SPA loads this file once on start, so check for existence before new-ing up another.
+		if (!window.Mobsites.Blazor.TopAppBar.initialized) {
+			window.Mobsites.Blazor.TopAppBar.self = new MDCTopAppBar(
 				document.querySelector(".mdc-top-app-bar")
 			);
-			window.Blazor.TopAppBar.Options = options;
+			window.Mobsites.Blazor.TopAppBar.initialized = true;
 			this.initEvents();
-			window.Blazor.TopAppBar.initialized = true;
 		}
 		this.assignMissingMDCClasses();
 		this.assignAdjustment();
 	},
 	refresh: function (options) {
-		window.Blazor.TopAppBar.self.destroy();
-		window.Blazor.TopAppBar.initialized = false;
+		if (options.type !== window.Mobsites.Blazor.TopAppBar.options.type) {
+			window.Mobsites.Blazor.TopAppBar.self.destroy();
+			window.Mobsites.Blazor.TopAppBar.initialized = false;
+		}
 		this.init(options);
 	},
 	assignMissingMDCClasses: function () {
@@ -53,7 +55,7 @@ window.Blazor.TopAppBar = {
 		// Every child but first in specified container gets class assignment or un-assignment.
 		if (end_container && end_container.children) {
 			for (let index = 1; index < end_container.children.length; index++) {
-				if (window.Blazor.TopAppBar.Options.showActionsAlways) {
+				if (window.Mobsites.Blazor.TopAppBar.options.showActionsAlways) {
 					end_container.children[index].classList.remove(
 						"mdc-top-app-bar-hide"
 					);
@@ -85,25 +87,25 @@ window.Blazor.TopAppBar = {
 					"mdc-top-app-bar--short-fixed-adjust"
 				);
 				adjustment_content[index].classList.add(
-					window.Blazor.TopAppBar.Options.adjustment
+					window.Mobsites.Blazor.TopAppBar.options.adjustment
 				);
 			}
 		}
 	},
 	initEvents: function () {
-		if (window.Blazor.AppDrawer) {
-			window.Blazor.TopAppBar.self.listen("MDCTopAppBar:nav", () => {
-				window.Blazor.AppDrawer.self.open = !window.Blazor.AppDrawer.self.open;
+		if (window.Mobsites.Blazor.AppDrawer) {
+			window.Mobsites.Blazor.TopAppBar.self.listen("MDCTopAppBar:nav", () => {
+				window.Mobsites.Blazor.AppDrawer.self.open = !window.Mobsites.Blazor.AppDrawer.self.open;
 			});
 			const mainContent =
 				document.getElementById("blazor-main-content") ||
 				document.querySelector(".blazor-main-content");
 			if (mainContent) {
-				window.Blazor.TopAppBar.self.setScrollTarget(mainContent);
+				window.Mobsites.Blazor.TopAppBar.self.setScrollTarget(mainContent);
 			}
 		}
-		window.Blazor.TopAppBar.HasScrollToEvent =
-			window.Blazor.TopAppBar.initializedScrollToEvent ||
+		window.Mobsites.Blazor.TopAppBar.hasScrollToEvent =
+			window.Mobsites.Blazor.TopAppBar.hasScrollToEvent ||
 			this.initScrollToEvent();
 	},
 	initScrollToEvent: function () {
@@ -112,7 +114,7 @@ window.Blazor.TopAppBar = {
 		);
 		if (navigation_icon) {
 			navigation_icon.addEventListener("click", function (event) {
-				if (window.Blazor.TopAppBar.Options.scrollToTop) {
+				if (window.Mobsites.Blazor.TopAppBar.options.scrollToTop) {
 					window.scrollTo(0, 0);
 				}
 			});

@@ -11,7 +11,7 @@
     <Company>Mobsites</Company>
     <Authors>Allan Mobley</Authors>
     <Copyright>© 2020 Mobsites</Copyright>
-    <Description>A Blazor component library that utilizes the MDC Top App Bar component and acts as a container for items such as application title, navigation icon, and action items.</Description>
+    <Description>A Blazor component that utilizes the MDC Top App Bar library and acts as a container for items such as application title, navigation icon, and action items.</Description>
     <PackageId>Mobsites.Blazor.TopAppBar</PackageId>
     <IsPackable>true</IsPackable>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>

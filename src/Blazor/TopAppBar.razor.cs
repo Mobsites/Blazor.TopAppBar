@@ -115,6 +115,7 @@ namespace Mobsites.Blazor
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
             var options = new {
+                Type,
                 Adjustment = GetAdjustment(),
                 ScrollToTop,
                 ShowActionsAlways
