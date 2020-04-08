@@ -2,8 +2,6 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
 
 namespace Mobsites.Blazor
 {
@@ -13,49 +11,34 @@ namespace Mobsites.Blazor
     public partial class TopAppBarNav
     {
         /// <summary>
-        /// Parent container.
-        /// </summary>
-        [CascadingParameter] internal TopAppBar Parent { get; set; }
-        
-        /// <summary>
-        /// All html attributes outside of the class attribute go here. Use the Class attribute property to add css classes.
-        /// </summary>
-        [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> ExtraAttributes { get; set; }
-
-        /// <summary>
-        /// The optional navigation button for the <see cref="TopAppBar">.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        /// <summary>
-        /// Css classes for affecting this component go here.
-        /// </summary>
-        [Parameter] public string Class { get; set; }
-
-        /// <summary>
         /// Whether to scroll to top of page when navigation icon is clicked.
         /// </summary>
         [Parameter] public bool ScrollToTop { get; set; }
+        [Parameter] public EventCallback<bool> ScrollToTopChanged { get; set; }
 
         /// <summary>
         /// A brand title to display.
         /// </summary>
         [Parameter] public string BrandTitle { get; set; }
+        [Parameter] public EventCallback<string> BrandTitleChanged { get; set; }
 
         /// <summary>
         /// Whether to hide brand title on small devices.
         /// </summary>
         [Parameter] public bool HideBrandTitle { get; set; }
-
-        /// <summary>
-        /// Whether to hide brand image on small devices.
-        /// </summary>
-        [Parameter] public bool HideBrandImage { get; set; }
+        [Parameter] public EventCallback<bool> HideBrandTitleChanged { get; set; }
 
         /// <summary>
         /// Whether to show a brand image.
         /// </summary>
         [Parameter] public bool UseBrandImage { get; set; }
+        [Parameter] public EventCallback<bool> UseBrandImageChanged { get; set; }
+
+        /// <summary>
+        /// Whether to hide brand image on small devices.
+        /// </summary>
+        [Parameter] public bool HideBrandImage { get; set; }
+        [Parameter] public EventCallback<bool> HideBrandImageChanged { get; set; }
 
         private string imageSource = "_content/Mobsites.Blazor.TopAppBar/blazor.png";
         
@@ -110,12 +93,9 @@ namespace Mobsites.Blazor
 
         protected override void OnParametersSet()
         {
-            if (Parent is null)
-            {
-                throw new ArgumentNullException(nameof(Parent), $"This component must have a parent of type {nameof(TopAppBar)}!");
-            }
-
-            Parent.ScrollToTop = ScrollToTop;
+            // This will check for valid parent.
+            base.OnParametersSet();
+            base.Parent.TopAppBarNav = this;
         }
     }
 }

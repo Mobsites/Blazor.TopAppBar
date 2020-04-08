@@ -1,9 +1,13 @@
+// Copyright (c) 2020 Allan Mobley. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 @use "@material/top-app-bar/mdc-top-app-bar";
 
 .mdc-top-app-bar {
     background-color: var(--mdc-theme-primary, #052561);
 }
 
+//  IOS fix
 .mdc-top-app-bar--fixed {
     top: 0px;
 }

@@ -1,4 +1,6 @@
-<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start @Class" @attributes="@ExtraAttributes">
+@inherits ChildComponent<TopAppBar>
+
+<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start @Class" style="@Style" @attributes="@ExtraAttributes">
     @ChildContent
     @if (!(string.IsNullOrEmpty(BrandTitle) && !UseBrandImage))
     {

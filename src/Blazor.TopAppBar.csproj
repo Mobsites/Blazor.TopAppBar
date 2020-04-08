@@ -30,6 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Blazor.BaseComponents\src\Blazor.BaseComponents.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="assets\mobsites-logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

@@ -1,3 +1,6 @@
+// Copyright (c) 2020 Allan Mobley. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 import { MDCTopAppBar } from "@material/top-app-bar";
 
 if (!window.Mobsites) {
@@ -12,26 +15,29 @@ window.Mobsites.Blazor.TopAppBar = {
 	init: function (options) {
 		window.Mobsites.Blazor.TopAppBar.options = options;
 		// SPA loads this file once on start, so check for existence before new-ing up another.
-		if (!window.Mobsites.Blazor.TopAppBar.initialized) {
+		if (!window.Mobsites.Blazor.TopAppBar.initialized || options.destroy) {
+			if (window.Mobsites.Blazor.TopAppBar.self) {
+                window.Mobsites.Blazor.TopAppBar.self.destroy();
+			}
+			this.assignMissingMDCClasses();
+			this.assignAdjustment();
 			window.Mobsites.Blazor.TopAppBar.self = new MDCTopAppBar(
 				document.querySelector(".mdc-top-app-bar")
 			);
 			window.Mobsites.Blazor.TopAppBar.initialized = true;
-			this.assignMissingMDCClasses();
-			this.assignAdjustment();
 			this.initEvents();
 		}
 		else {
 			this.assignMissingMDCClasses();
 			this.assignAdjustment();
 		}
+		return true;
 	},
 	refresh: function (options) {
-		if (options.type !== window.Mobsites.Blazor.TopAppBar.options.type) {
-			window.Mobsites.Blazor.TopAppBar.self.destroy();
-			window.Mobsites.Blazor.TopAppBar.initialized = false;
+		if (options.variant !== window.Mobsites.Blazor.TopAppBar.options.variant) {
+			options.destroy = true;
 		}
-		this.init(options);
+		return this.init(options);
 	},
 	assignMissingMDCClasses: function () {
 		const navigation_icon = document.querySelector(
@@ -105,10 +111,12 @@ window.Mobsites.Blazor.TopAppBar = {
 		}
 	},
 	initEvents: function () {
+		this.initAppDrawerToggleEvent();
+		this.initScrollToEvent();
+	},
+	initAppDrawerToggleEvent: function () {
 		if (window.Mobsites.Blazor.AppDrawer) {
-			window.Mobsites.Blazor.TopAppBar.self.listen("MDCTopAppBar:nav", () => {
-				window.Mobsites.Blazor.AppDrawer.self.open = !window.Mobsites.Blazor.AppDrawer.self.open;
-			});
+			window.Mobsites.Blazor.TopAppBar.self.listen("MDCTopAppBar:nav", this.toggleAppDrawerClickEvent);
 			const mainContent =
 				document.getElementById("blazor-main-content") ||
 				document.querySelector(".blazor-main-content");
@@ -116,24 +124,21 @@ window.Mobsites.Blazor.TopAppBar = {
 				window.Mobsites.Blazor.TopAppBar.self.setScrollTarget(mainContent);
 			}
 		}
-		
-		window.Mobsites.Blazor.TopAppBar.hasScrollToEvent =
-			window.Mobsites.Blazor.TopAppBar.hasScrollToEvent ||
-			this.initScrollToEvent();
 	},
 	initScrollToEvent: function () {
 		const navigation_icon = document.querySelector(
 			".mdc-top-app-bar__navigation-icon"
 		);
 		if (navigation_icon) {
-			navigation_icon.addEventListener("click", function (event) {
-				if (window.Mobsites.Blazor.TopAppBar.options.scrollToTop) {
-					window.scrollTo(0, 0);
-				}
-			});
-			return true;
-		} else {
-			return false;
+			navigation_icon.addEventListener("click", this.scrollToEvent);
 		}
 	},
+	toggleAppDrawerClickEvent: function () {
+		window.Mobsites.Blazor.AppDrawer.self.open = !window.Mobsites.Blazor.AppDrawer.self.open;
+	},
+	scrollToEvent: function () {
+		if (window.Mobsites.Blazor.TopAppBar.options.scrollToTop) {
+			window.scrollTo(0, 0);
+		}
+	}
 };

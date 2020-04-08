@@ -1,27 +1,95 @@
 @inherits LayoutComponentBase
 
 <div class="sidebar">
-    <NavMenu @ref="NavMenu" />
+    <CascadingValue Value="this">
+        <NavMenu />
+    </CascadingValue>
 </div>
 
 <!-- Add adjustment class to prevent TopAppBar from hiding some of this content -->
 <div class="main @TopAppBar.AdjustmentMarkerClass @TopAppBar.MainContentMarker">
-    @* <div class="top-row px-4">
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-    </div> *@
-    
     <div class="content px-4">
-        @Body
+        <CascadingValue Value="this">
+            @Body
+        </CascadingValue>
     </div>
 </div>
 
 @code {
-    public static NavMenu NavMenu { get; set; }
-    public static TopAppBar.Types TopAppBarType = TopAppBar.Types.Standard;
-    public static string BrandTitle { get; set; } = "Demo";
-    public static bool HideBrandTitle { get; set; }
-    public static bool UseBrandImage { get; set; } = true;
-    public static bool HideBrandImage { get; set; }
-    public static bool ScrollToTop { get; set; } = true;
-    public static bool ShowActionsAlways { get; set; }
+    private TopAppBar.Variants variant = TopAppBar.Variants.Standard;
+    public TopAppBar.Variants Variant
+    {
+        get => variant; 
+        set
+        {
+            variant = value;
+            StateHasChanged();
+        }
+    }
+
+    private string brandTitle = "Demo";
+    public string BrandTitle
+    {
+        get => brandTitle; 
+        set
+        {
+            brandTitle = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool hideBrandTitle;
+    public bool HideBrandTitle
+    {
+        get => hideBrandTitle; 
+        set
+        {
+            hideBrandTitle = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool useBrandImage = true;
+    public bool UseBrandImage
+    {
+        get => useBrandImage; 
+        set
+        {
+            useBrandImage = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool hideBrandImage;
+    public bool HideBrandImage
+    {
+        get => hideBrandImage; 
+        set
+        {
+            hideBrandImage = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool scrollToTop = true;
+    public bool ScrollToTop
+    {
+        get => scrollToTop; 
+        set
+        {
+            scrollToTop = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool showActionsAlways;
+    public bool ShowActionsAlways
+    {
+        get => showActionsAlways; 
+        set
+        {
+            showActionsAlways = value;
+            StateHasChanged();
+        }
+    }
 }
