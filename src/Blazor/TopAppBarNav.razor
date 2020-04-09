@@ -2,12 +2,12 @@
 
 <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start @Class" style="@Style" @attributes="@ExtraAttributes">
     @ChildContent
-    @if (!(string.IsNullOrEmpty(BrandTitle) && !UseBrandImage))
+    @if (!(string.IsNullOrEmpty(BrandTitle) && !UseIcon))
     {
         <span class="mdc-top-app-bar__title">
-            @if (UseBrandImage)
+            @if (UseIcon)
             {
-                <img src="@BrandImageSource" width="@BrandImageWidth" height="@BrandImageHeight" class="@(HideBrandImage ? "mdc-top-app-bar-hide" : string.Empty)" />
+                <img src="@Icon" width="@IconWidth" height="@IconHeight" class="@(HideIcon ? "mdc-top-app-bar-hide" : string.Empty)" />
             }
             <span class="@(HideBrandTitle ? "mdc-top-app-bar-hide" : string.Empty)">@BrandTitle</span>
         </span>

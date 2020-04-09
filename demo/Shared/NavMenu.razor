@@ -1,15 +1,27 @@
-<TopAppBar @bind-Variant="@MainLayout.Variant" KeepState>
-    <TopAppBarNav @bind-BrandTitle="@MainLayout.BrandTitle" 
-                  @bind-HideBrandTitle="@MainLayout.HideBrandTitle" 
-                  @bind-UseBrandImage="@MainLayout.UseBrandImage" 
-                  @bind-HideBrandImage="@MainLayout.HideBrandImage"
-                  @bind-ScrollToTop="@MainLayout.ScrollToTop">
+<TopAppBar 
+    @bind-Variant="@MainLayout.Variant" 
+    KeepState
+    @bind-UseDarkMode="@MainLayout.UseDarkMode"
+    @bind-UseLightMode="@MainLayout.UseLightMode"
+    UseColor
+    @bind-Color="@MainLayout.Color"
+    UseBackgroundColor
+    @bind-BackgroundColorDirection="@MainLayout.BackgroundColorDirection"
+    @bind-BackgroundColorStart="@MainLayout.BackgroundColorStart" 
+    @bind-BackgroundColorEnd="@MainLayout.BackgroundColorEnd">
+    <TopAppBarNav 
+        @bind-BrandTitle="@MainLayout.BrandTitle" 
+        @bind-HideBrandTitle="@MainLayout.HideBrandTitle" 
+        @bind-UseIcon="@MainLayout.UseBrandImage" 
+        Icon="blazor.png"
+        @bind-HideIcon="@MainLayout.HideBrandImage"
+        @bind-ScrollToTop="@MainLayout.ScrollToTop">
         <button class="navbar-toggler bg-transparent no-outline" @onclick="ToggleNavMenu">
-            <span class="oi oi-menu text-light align-middle"></span>
+            <span class="oi oi-menu align-middle @(MainLayout.UseLightMode && !MainLayout.UseDarkMode ? "text-dark" : "text-light")"></span>
         </button>
     </TopAppBarNav>
     <TopAppBarActions @bind-ShowActionsAlways="@MainLayout.ShowActionsAlways">
-        <a href="https://github.com/Mobsites/Blazor.TopAppBar" target="_blank" class="ml-md-auto pr-2"><img src="github.png" width="24" height="24" /></a>
+        <a href="https://github.com/Mobsites/Blazor.TopAppBar" target="_blank" class="ml-md-auto pr-2"><img src="@(MainLayout.UseLightMode && !MainLayout.UseDarkMode ? "light-mode-" : string.Empty)github.png" width="24" height="24" /></a>
         <a href="https://github.com/Mobsites" target="_blank" class="pr-2"><img src="mobsites-logo.png" width="24" height="24" /></a>
         <a href="https://github.com/allan-mobley-jr" target="_blank" class="pr-2"><img src="me.png" width="24" height="24" /></a>
     </TopAppBarActions>
@@ -31,11 +43,6 @@
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="fetchdata">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata2">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data 2
             </NavLink>
         </li>
     </ul>

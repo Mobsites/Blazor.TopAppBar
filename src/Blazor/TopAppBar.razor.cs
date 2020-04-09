@@ -32,45 +32,47 @@ namespace Mobsites.Blazor
         /// The variant state of <see cref="TopAppBar">.
         /// </summary>
         [Parameter] public Variants Variant { get; set; }
+
+        /// <summary>
+        /// Call back event for notifying another component that this property changed. 
+        /// </summary>
         [Parameter] public EventCallback<Variants> VariantChanged { get; set; }
         
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
-            var options = KeepState 
-                ? UseSessionStorageForState
-                    ? await Storage.Session.GetAsync<Options>(nameof(TopAppBar))
-                    : await Storage.Local.GetAsync<Options>(nameof(TopAppBar))
+            var options = this.KeepState 
+                ? this.UseSessionStorageForState
+                    ? await this.Storage.Session.GetAsync<Options>(nameof(TopAppBar))
+                    : await this.Storage.Local.GetAsync<Options>(nameof(TopAppBar))
                 : null;
 
             if (firstRender)
             {
-                Console.WriteLine("firstRender");
                 if (options is null)
                 {
-                    options = SetOptions();
+                    options = this.SetOptions();
                 }
                 else
                 {
-                    await CheckState(options);
+                    await this.CheckState(options);
                 }
 
                 // Destroy any lingering js representation.
                 options.Destroy = true;
                 
-                initialized = await jsRuntime.InvokeAsync<bool>(
+                this.initialized = await this.jsRuntime.InvokeAsync<bool>(
                     "Mobsites.Blazor.TopAppBar.init",
                     options);
             }
             else
             {
-                Console.WriteLine("Re-render");
                 // Use current state if...
-                if (initialized || options is null)
+                if (this.initialized || options is null)
                 {
-                    options = SetOptions();
+                    options = this.SetOptions();
                 }
 
-                initialized = await jsRuntime.InvokeAsync<bool>(
+                this.initialized = await this.jsRuntime.InvokeAsync<bool>(
                     "Mobsites.Blazor.TopAppBar.refresh",
                     options);
             }
@@ -78,20 +80,21 @@ namespace Mobsites.Blazor
             // Clear destory before saving.
             options.Destroy = false;
 
-            if (KeepState)
+            if (this.KeepState)
             {
-                if (UseSessionStorageForState)
+                if (this.UseSessionStorageForState)
                 {
-                    await Storage.Session.SetAsync(nameof(TopAppBar), options);
+                    await this.Storage.Session.SetAsync(nameof(TopAppBar), options);
                 }
                 else
                 {
-                    await Storage.Local.SetAsync(nameof(TopAppBar), options);
+                    await this.Storage.Local.SetAsync(nameof(TopAppBar), options);
                 }
             }
             else
             {
-                await Storage.Local.RemoveAsync<Options>(nameof(TopAppBar));
+                await this.Storage.Session.RemoveAsync<Options>(nameof(TopAppBar));
+                await this.Storage.Local.RemoveAsync<Options>(nameof(TopAppBar));
             }
         }
 
@@ -110,68 +113,36 @@ namespace Mobsites.Blazor
             _ => null
         };
 
-        private Options SetOptions()
+        internal Options SetOptions()
         {
-            return  new Options 
+            var options = new Options 
             {
                 Variant = this.Variant,
-                Adjustment = GetAdjustment(),
-                ScrollToTop = this.TopAppBarNav?.ScrollToTop ?? false,
-                BrandTitle = this.TopAppBarNav?.BrandTitle,
-                HideBrandTitle = this.TopAppBarNav?.HideBrandTitle ?? false,
-                UseBrandImage = this.TopAppBarNav?.UseBrandImage ?? false,
-                HideBrandImage = this.TopAppBarNav?.HideBrandImage ?? false,
-                ShowActionsAlways = this.TopAppBarActions?.ShowActionsAlways ?? false
+                Adjustment = GetAdjustment()
             };
+
+            base.SetColorOptions(options);
+            this.TopAppBarNav?.SetOptions(options);
+            this.TopAppBarActions?.SetOptions(options);
+
+            return options;
         }
 
-        private async Task CheckState(Options options)
+        internal async Task CheckState(Options options)
         {
-            // If state has changed...
             if (this.Variant != options.Variant)
             {
-                await VariantChanged.InvokeAsync(options.Variant);
+                await this.VariantChanged.InvokeAsync(options.Variant);
             }
-            if (this.TopAppBarActions != null)
-            {
-                if (this.TopAppBarActions.ShowActionsAlways != options.ShowActionsAlways)
-                {
-                    await this.TopAppBarActions.ShowActionsAlwaysChanged.InvokeAsync(options.ShowActionsAlways);
-                }
-            }
-            if (this.TopAppBarNav != null)
-            {
-                if (this.TopAppBarNav.ScrollToTop != options.ScrollToTop)
-                {
-                    await this.TopAppBarNav.ScrollToTopChanged.InvokeAsync(options.ScrollToTop);
-                }
 
-                if (this.TopAppBarNav.BrandTitle != options.BrandTitle)
-                {
-                    await this.TopAppBarNav.BrandTitleChanged.InvokeAsync(options.BrandTitle);
-                }
-
-                if (this.TopAppBarNav.HideBrandTitle != options.HideBrandTitle)
-                {
-                    await this.TopAppBarNav.HideBrandTitleChanged.InvokeAsync(options.HideBrandTitle);
-                }
-
-                if (this.TopAppBarNav.UseBrandImage != options.UseBrandImage)
-                {
-                    await this.TopAppBarNav.UseBrandImageChanged.InvokeAsync(options.UseBrandImage);
-                }
-
-                if (this.TopAppBarNav.HideBrandImage != options.HideBrandImage)
-                {
-                    await this.TopAppBarNav.HideBrandImageChanged.InvokeAsync(options.HideBrandImage);
-                }
-            }
+            await base.CheckColorState(options);
+            await this.TopAppBarNav?.CheckState(options);
+            await this.TopAppBarActions?.CheckState(options);
         }
 
         public void Dispose()
         {
-            Console.WriteLine("Disposed");
-            initialized = false;
+            this.initialized = false;
         }
     }
 }

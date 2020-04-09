@@ -3,10 +3,6 @@
 
 @use "@material/top-app-bar/mdc-top-app-bar";
 
-.mdc-top-app-bar {
-    background-color: var(--mdc-theme-primary, #052561);
-}
-
 //  IOS fix
 .mdc-top-app-bar--fixed {
     top: 0px;

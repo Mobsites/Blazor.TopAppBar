@@ -41,7 +41,7 @@
     private bool hideBrandTitle;
     public bool HideBrandTitle
     {
-        get => hideBrandTitle; 
+        get => hideBrandTitle;  
         set
         {
             hideBrandTitle = value;
@@ -89,6 +89,72 @@
         set
         {
             showActionsAlways = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool useDarkMode;
+    public bool UseDarkMode
+    {
+        get => useDarkMode; 
+        set
+        {
+            useDarkMode = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool useLightMode;
+    public bool UseLightMode
+    {
+        get => useLightMode; 
+        set
+        {
+            useLightMode = value;
+            StateHasChanged();
+        }
+    }
+
+    private BackgroundColorDirections backgroundColorDirection = BackgroundColorDirections.LeftToRight;
+    public BackgroundColorDirections BackgroundColorDirection
+    {
+        get => backgroundColorDirection;
+        set 
+        {
+            backgroundColorDirection = value;
+            StateHasChanged();
+        }
+    }
+
+    private string backgroundColorStart = "rgb(5, 39, 103)";
+    public string BackgroundColorStart
+    {
+        get => backgroundColorStart;
+        set 
+        {
+            backgroundColorStart = value;
+            StateHasChanged();
+        }
+    }
+
+    private string backgroundColorEnd = "#3a0647";
+    public string BackgroundColorEnd
+    {
+        get => backgroundColorEnd;
+        set 
+        {
+            backgroundColorEnd = value;
+            StateHasChanged();
+        }
+    }
+
+    private string color = "white";
+    public string Color
+    {
+        get => color;
+        set 
+        {
+            color = value;
             StateHasChanged();
         }
     }
