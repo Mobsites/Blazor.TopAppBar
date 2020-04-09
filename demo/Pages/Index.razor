@@ -74,13 +74,23 @@
                 </li>
                 <li>
                     <div class="form-group form-check">
-                        <input checked=@MainLayout.ShowActionsAlways type="checkbox" class="form-check-input" id="show-actions-always" @onchange="@((e) => MainLayout.ShowActionsAlways = (bool)(e.Value as bool?))" />
+                        <input 
+                            checked=@MainLayout.ShowActionsAlways 
+                            type="checkbox" 
+                            class="form-check-input" 
+                            id="show-actions-always" 
+                            @onchange="@((e) => MainLayout.ShowActionsAlways = (bool)(e.Value as bool?))" />
                         <label class="form-check-label" for="show-actions-always">Show all actions</label>
                     </div>
                 </li>
                 <li>
                     <div class="form-group form-check">
-                        <input checked=@MainLayout.ScrollToTop type="checkbox" class="form-check-input" id="scrolll-to-top" @onchange="@((e) => MainLayout.ScrollToTop = (bool)(e.Value as bool?))" />
+                        <input 
+                            checked=@MainLayout.ScrollToTop 
+                            type="checkbox" 
+                            class="form-check-input" 
+                            id="scrolll-to-top" 
+                            @onchange="@((e) => MainLayout.ScrollToTop = (bool)(e.Value as bool?))" />
                         <label class="form-check-label" for="scrolll-to-top">Scroll to top of page when nav icon is clicked</label>
                     </div>
                 </li>
@@ -92,16 +102,38 @@
             <b>Background:</b>
             <div class="pt-2 pl-4">
                 <div class="form-group form-check">
-                    <input checked=@MainLayout.UseDarkMode type="radio" class="form-check-input" id="dark-mode" @onchange="@((e) => { MainLayout.UseDarkMode = true; MainLayout.UseLightMode = false; })" />
+                    <input 
+                        checked=@MainLayout.UseDarkMode 
+                        type="radio" class="form-check-input" 
+                        id="dark-mode" 
+                        @onchange="@((e) => { MainLayout.UseDarkMode = true; MainLayout.UseLightMode = false; MainLayout.UseBackgroundImage = false; })" />
                     <label class="form-check-label" for="dark-mode">Dark Mode</label>
                 </div>
                 <div class="form-group form-check">
-                    <input checked=@MainLayout.UseLightMode type="radio" class="form-check-input" id="light-mode" @onchange="@((e) => { MainLayout.UseDarkMode = false; MainLayout.UseLightMode = true; })" />
+                    <input 
+                        checked=@MainLayout.UseLightMode 
+                        type="radio" class="form-check-input" 
+                        id="light-mode" 
+                        @onchange="@((e) => { MainLayout.UseDarkMode = false; MainLayout.UseLightMode = true; MainLayout.UseBackgroundImage = false; })" />
                     <label class="form-check-label" for="light-mode">Light Mode</label>
                 </div>
                 <div class="form-group form-check">
-                    <input checked=@(!MainLayout.UseDarkMode && !MainLayout.UseLightMode) type="radio" class="form-check-input" id="normal-mode" @onchange="@((e) => { MainLayout.UseDarkMode = false; MainLayout.UseLightMode = false; })" />
-                    <label class="form-check-label" for="normal-mode">Normal Mode</label>
+                    <input 
+                        checked=@MainLayout.UseBackgroundImage 
+                        type="radio" 
+                        class="form-check-input" 
+                        id="use-background-image" 
+                        @onchange="@((e) => { MainLayout.UseDarkMode = false; MainLayout.UseLightMode = false; MainLayout.UseBackgroundImage = true; })" />
+                    <label class="form-check-label" for="use-background-image">Use Background Image</label>
+                </div>
+                <div class="form-group form-check">
+                    <input 
+                        checked=@(!MainLayout.UseDarkMode && !MainLayout.UseLightMode && !MainLayout.UseBackgroundImage) 
+                        type="radio" 
+                        class="form-check-input" 
+                        id="use-background-color" 
+                        @onchange="@((e) => { MainLayout.UseDarkMode = false; MainLayout.UseLightMode = false; MainLayout.UseBackgroundImage = false; })" />
+                    <label class="form-check-label" for="use-background-color">Use Background Color</label>
                 </div>
                 <div class="form-group">
                     <label for="top-app-bar-type">Direction</label>

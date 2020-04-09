@@ -12,8 +12,9 @@ namespace Mobsites.Blazor
             public bool ScrollToTop { get; set; }
             public string BrandTitle { get; set; }
             public bool HideBrandTitle { get; set; }
-            public bool UseBrandImage { get; set; }
-            public bool HideBrandImage { get; set; }
+            public bool UseIcon { get; set; }
+            public bool HideIcon { get; set; }
+            public bool UseBackgroundImage { get; set; }
             public bool ShowActionsAlways { get; set; }
             public bool Destroy { get; set; }
         }

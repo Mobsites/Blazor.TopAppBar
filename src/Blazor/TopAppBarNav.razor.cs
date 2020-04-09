@@ -63,8 +63,8 @@ namespace Mobsites.Blazor
             options.ScrollToTop = this.ScrollToTop;
             options.BrandTitle = this.BrandTitle;
             options.HideBrandTitle = this.HideBrandTitle;
-            options.UseBrandImage = this.UseIcon;
-            options.HideBrandImage = this.HideIcon;
+            options.UseIcon = this.UseIcon;
+            options.HideIcon = this.HideIcon;
         }
 
         internal async Task CheckState(TopAppBar.Options options)
@@ -84,14 +84,14 @@ namespace Mobsites.Blazor
                 await this.HideBrandTitleChanged.InvokeAsync(options.HideBrandTitle);
             }
 
-            if (this.UseIcon != options.UseBrandImage)
+            if (this.UseIcon != options.UseIcon)
             {
-                await this.UseIconChanged.InvokeAsync(options.UseBrandImage);
+                await this.UseIconChanged.InvokeAsync(options.UseIcon);
             }
 
-            if (this.HideIcon != options.HideBrandImage)
+            if (this.HideIcon != options.HideIcon)
             {
-                await this.HideIconChanged.InvokeAsync(options.HideBrandImage);
+                await this.HideIconChanged.InvokeAsync(options.HideIcon);
             }
         }
     }

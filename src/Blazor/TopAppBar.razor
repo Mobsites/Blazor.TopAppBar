@@ -28,9 +28,11 @@
     ? $"background-color:{DarkModeBackgroundColor};"
     : UseLightMode
       ? $"background-color:{LightModeBackgroundColor};"
-      : UseBackgroundColor
-        ? $"background-image:linear-gradient({(int)BackgroundColorDirection}deg, {BackgroundColorStart} 0%, {BackgroundColorEnd} 90%);"
-        : string.Empty;
+      : UseBackgroundImage
+        ? $"background:url('skyline.jpg') no-repeat center;"
+        : UseBackgroundColor
+          ? $"background-image:linear-gradient({(int)BackgroundColorDirection}deg, {BackgroundColorStart} 0%, {BackgroundColorEnd} 90%);"
+          : string.Empty;
 }
 
 <header class="mdc-top-app-bar @type @Class" style="@background @color @Style" @attributes="@ExtraAttributes">

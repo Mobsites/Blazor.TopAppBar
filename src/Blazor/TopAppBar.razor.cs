@@ -118,7 +118,8 @@ namespace Mobsites.Blazor
             var options = new Options 
             {
                 Variant = this.Variant,
-                Adjustment = GetAdjustment()
+                Adjustment = GetAdjustment(),
+                UseBackgroundImage = this.UseBackgroundImage
             };
 
             base.SetColorOptions(options);
@@ -133,6 +134,10 @@ namespace Mobsites.Blazor
             if (this.Variant != options.Variant)
             {
                 await this.VariantChanged.InvokeAsync(options.Variant);
+            }
+            if (this.UseBackgroundImage != options.UseBackgroundImage)
+            {
+                await this.UseBackgroundImageChanged.InvokeAsync(options.UseBackgroundImage);
             }
 
             await base.CheckColorState(options);
