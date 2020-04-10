@@ -1,11 +1,9 @@
-<TopAppBar Variant="@TopAppBar.Variants.Fixed">
-    <TopAppBarNav BrandTitle="Blazorwasm" 
-                  UseBrandImage 
-                  ScrollToTop>
+<TopAppBar Variant="@TopAppBar.Variants.Fixed" ScrollToTop>
+    <TopAppBarHeader Title="Blazorwasm" UseImage>
         <button class="navbar-toggler bg-transparent no-outline" @onclick="ToggleNavMenu">
             <span class="oi oi-menu text-light align-middle"></span>
         </button>
-    </TopAppBarNav>
+    </TopAppBarHeader>
     <TopAppBarActions>
         <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
     </TopAppBarActions>

@@ -21,12 +21,22 @@ namespace Mobsites.Blazor
         /// <summary>
         /// Child reference. (Assigned by child.)
         /// </summary>
-        internal TopAppBarNav TopAppBarNav { get; set; }
+        internal TopAppBarHeader TopAppBarHeader { get; set; }
 
         /// <summary>
         /// Child reference. (Assigned by child.)
         /// </summary>
         internal TopAppBarActions TopAppBarActions { get; set; }
+
+        /// <summary>
+        /// Use this css class marker on content below the <see cref="TopAppBar"/> to prevent it from covering top part of said content.
+        /// </summary>
+        public const string AdjustmentMarkerClass = "blazor-topAppBar-adjustment";
+
+        /// <summary>
+        /// Use this as the id or as a class marker for the main content in your Blazor app.
+        /// </summary>
+        public const string MainContentMarker = "blazor-main-content";
 
         /// <summary>
         /// The variant state of <see cref="TopAppBar">.
@@ -37,6 +47,16 @@ namespace Mobsites.Blazor
         /// Call back event for notifying another component that this property changed. 
         /// </summary>
         [Parameter] public EventCallback<Variants> VariantChanged { get; set; }
+
+        /// <summary>
+        /// Whether to scroll to top of page when navigation icon is clicked.
+        /// </summary>
+        [Parameter] public bool ScrollToTop { get; set; }
+
+        /// <summary>
+        /// Call back event for notifying another component that this property changed. 
+        /// </summary>
+        [Parameter] public EventCallback<bool> ScrollToTopChanged { get; set; }
         
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
@@ -119,11 +139,11 @@ namespace Mobsites.Blazor
             {
                 Variant = this.Variant,
                 Adjustment = GetAdjustment(),
-                UseBackgroundImage = this.UseBackgroundImage
+                ScrollToTop = this.ScrollToTop
             };
 
-            base.SetColorOptions(options);
-            this.TopAppBarNav?.SetOptions(options);
+            base.SetOptions(options);
+            this.TopAppBarHeader?.SetOptions(options);
             this.TopAppBarActions?.SetOptions(options);
 
             return options;
@@ -135,13 +155,13 @@ namespace Mobsites.Blazor
             {
                 await this.VariantChanged.InvokeAsync(options.Variant);
             }
-            if (this.UseBackgroundImage != options.UseBackgroundImage)
+            if (this.ScrollToTop != options.ScrollToTop)
             {
-                await this.UseBackgroundImageChanged.InvokeAsync(options.UseBackgroundImage);
+                await this.ScrollToTopChanged.InvokeAsync(options.ScrollToTop);
             }
 
-            await base.CheckColorState(options);
-            await this.TopAppBarNav?.CheckState(options);
+            await base.CheckState(options);
+            await this.TopAppBarHeader?.CheckState(options);
             await this.TopAppBarActions?.CheckState(options);
         }
 

@@ -1,0 +1,15 @@
+@inherits ChildComponent<TopAppBar>
+
+<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start @Class" style="@Style" @attributes="@ExtraAttributes">
+    @ChildContent
+    @if (!(string.IsNullOrEmpty(Title) && !UseImage))
+    {
+        <span class="mdc-top-app-bar__title">
+            @if (UseImage)
+            {
+                <img src="@Image" width="@ImageWidth" height="@ImageHeight" class="@(HideImage ? "mdc-top-app-bar-hide" : string.Empty)" />
+            }
+            <span class="@(HideTitle ? "mdc-top-app-bar-hide" : string.Empty)">@Title</span>
+        </span>
+    }
+</section>

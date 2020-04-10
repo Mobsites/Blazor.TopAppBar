@@ -5,15 +5,15 @@ namespace Mobsites.Blazor
 {
     public partial class TopAppBar
     {
-        public class Options : BaseComponentOptions
+        internal class Options : ParentOptions
         {
             public Variants Variant { get; set; }
             public string Adjustment { get; set; }
             public bool ScrollToTop { get; set; }
-            public string BrandTitle { get; set; }
-            public bool HideBrandTitle { get; set; }
-            public bool UseIcon { get; set; }
-            public bool HideIcon { get; set; }
+            public string Title { get; set; }
+            public bool HideTitle { get; set; }
+            public bool UseImage { get; set; }
+            public bool HideImage { get; set; }
             public bool UseBackgroundImage { get; set; }
             public bool ShowActionsAlways { get; set; }
             public bool Destroy { get; set; }

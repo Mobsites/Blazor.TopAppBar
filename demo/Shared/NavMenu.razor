@@ -1,28 +1,24 @@
-<TopAppBar 
-    @bind-Variant="@MainLayout.Variant" 
+<TopAppBar
     KeepState
-    @bind-UseDarkMode="@MainLayout.UseDarkMode"
-    @bind-UseLightMode="@MainLayout.UseLightMode"
-    UseColor
+    @bind-Variant="@MainLayout.Variant"
     @bind-Color="@MainLayout.Color"
-    @bind-UseBackgroundImage="@MainLayout.UseBackgroundImage"
-    UseBackgroundColor
+    @bind-BackgroundMode="@MainLayout.BackgroundMode"
     @bind-BackgroundColorDirection="@MainLayout.BackgroundColorDirection"
     @bind-BackgroundColorStart="@MainLayout.BackgroundColorStart" 
-    @bind-BackgroundColorEnd="@MainLayout.BackgroundColorEnd">
-    <TopAppBarNav 
-        @bind-BrandTitle="@MainLayout.BrandTitle" 
-        @bind-HideBrandTitle="@MainLayout.HideBrandTitle" 
-        @bind-UseIcon="@MainLayout.UseBrandImage" 
-        Icon="blazor.png"
-        @bind-HideIcon="@MainLayout.HideBrandImage"
-        @bind-ScrollToTop="@MainLayout.ScrollToTop">
+    @bind-BackgroundColorEnd="@MainLayout.BackgroundColorEnd"
+    @bind-ScrollToTop="@MainLayout.ScrollToTop">
+    <TopAppBarHeader
+        @bind-Title="@MainLayout.Title" 
+        @bind-HideTitle="@MainLayout.HideTitle" 
+        Image="blazor.png"
+        @bind-UseImage="@MainLayout.UseImage" 
+        @bind-HideImage="@MainLayout.HideImage">
         <button class="navbar-toggler bg-transparent no-outline" @onclick="ToggleNavMenu">
-            <span class="oi oi-menu align-middle @(MainLayout.UseLightMode && !MainLayout.UseDarkMode ? "text-dark" : "text-light")"></span>
+            <span class="oi oi-menu align-middle @(MainLayout.BackgroundMode == BackgroundModes.Light || MainLayout.BackgroundMode == BackgroundModes.Image ? "text-body" : "text-light")"></span>
         </button>
-    </TopAppBarNav>
+    </TopAppBarHeader>
     <TopAppBarActions @bind-ShowActionsAlways="@MainLayout.ShowActionsAlways">
-        <a href="https://github.com/Mobsites/Blazor.TopAppBar" target="_blank" class="ml-md-auto pr-2"><img src="@(MainLayout.UseLightMode && !MainLayout.UseDarkMode ? "light-mode-" : string.Empty)github.png" width="24" height="24" /></a>
+        <a href="https://github.com/Mobsites/Blazor.TopAppBar" target="_blank" class="ml-md-auto pr-2"><img src="@(MainLayout.BackgroundMode == BackgroundModes.Light || MainLayout.BackgroundMode == BackgroundModes.Image ? "light-mode-" : string.Empty)github.png" width="24" height="24" /></a>
         <a href="https://github.com/Mobsites" target="_blank" class="pr-2"><img src="mobsites-logo.png" width="24" height="24" /></a>
         <a href="https://github.com/allan-mobley-jr" target="_blank" class="pr-2"><img src="me.png" width="24" height="24" /></a>
     </TopAppBarActions>

@@ -27,46 +27,46 @@
         }
     }
 
-    private string brandTitle = "Demo";
-    public string BrandTitle
+    private string title = "Demo";
+    public string Title
     {
-        get => brandTitle; 
+        get => title; 
         set
         {
-            brandTitle = value;
+            title = value;
             StateHasChanged();
         }
     }
 
-    private bool hideBrandTitle;
-    public bool HideBrandTitle
+    private bool hideTitle;
+    public bool HideTitle
     {
-        get => hideBrandTitle;  
+        get => hideTitle;  
         set
         {
-            hideBrandTitle = value;
+            hideTitle = value;
             StateHasChanged();
         }
     }
 
-    private bool useBrandImage = true;
-    public bool UseBrandImage
+    private bool useImage = true;
+    public bool UseImage
     {
-        get => useBrandImage; 
+        get => useImage; 
         set
         {
-            useBrandImage = value;
+            useImage = value;
             StateHasChanged();
         }
     }
 
-    private bool hideBrandImage;
-    public bool HideBrandImage
+    private bool hideImage;
+    public bool HideImage
     {
-        get => hideBrandImage; 
+        get => hideImage; 
         set
         {
-            hideBrandImage = value;
+            hideImage = value;
             StateHasChanged();
         }
     }
@@ -93,35 +93,13 @@
         }
     }
 
-    private bool useDarkMode;
-    public bool UseDarkMode
+    private BackgroundModes backgroundMode = BackgroundModes.Gradient;
+    public BackgroundModes BackgroundMode
     {
-        get => useDarkMode; 
+        get => backgroundMode; 
         set
         {
-            useDarkMode = value;
-            StateHasChanged();
-        }
-    }
-
-    private bool useLightMode;
-    public bool UseLightMode
-    {
-        get => useLightMode; 
-        set
-        {
-            useLightMode = value;
-            StateHasChanged();
-        }
-    }
-
-    private bool useBackgroundImage;
-    public bool UseBackgroundImage
-    {
-        get => useBackgroundImage; 
-        set
-        {
-            useBackgroundImage = value;
+            backgroundMode = value;
             StateHasChanged();
         }
     }

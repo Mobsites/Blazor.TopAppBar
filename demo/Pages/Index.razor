@@ -17,7 +17,10 @@
     <div class="col col-md-6 col-lg-4">
       <div class="form-group">
         <label for="variant">Select Variant</label>
-        <select class="form-control" id="variant" @oninput="@((e) => MainLayout.Variant = Enum.Parse<TopAppBar.Variants>(e.Value as string))">
+        <select 
+            class="form-control" 
+            id="variant" 
+            @oninput="@((e) => MainLayout.Variant = Enum.Parse<TopAppBar.Variants>(e.Value as string))">
           <option value="@TopAppBar.Variants.Standard" selected=@(MainLayout.Variant == TopAppBar.Variants.Standard ? true : false)>Standard</option>
           <option value="@TopAppBar.Variants.Fixed" selected=@(MainLayout.Variant == TopAppBar.Variants.Fixed ? true : false)>Fixed</option>
           <option value="@TopAppBar.Variants.Prominent" selected=@(MainLayout.Variant == TopAppBar.Variants.Prominent ? true : false)>Prominent</option>
@@ -44,14 +47,24 @@
     <div class="col col-md-6 col-lg-4">
         <div class="form-group">
             <label for="brand-title">Change Title</label>
-            <input class="form-control" id="brand-title" type="text" value="@MainLayout.BrandTitle" @oninput="@((e) => MainLayout.BrandTitle = e.Value as string)" />
+            <input 
+                class="form-control" 
+                id="brand-title" 
+                type="text" 
+                value="@MainLayout.Title" 
+                @oninput="@((e) => MainLayout.Title = e.Value as string)" />
         </div>
     </div>
   </div>
   <div class="row mt-2">
     <div class="col col-md-6 col-lg-4">
         <div class="form-group form-check">
-            <input checked=@MainLayout.UseBrandImage type="checkbox" class="form-check-input" id="use-brand-image" @onchange="@((e) => MainLayout.UseBrandImage = (bool)(e.Value as bool?))" />
+            <input 
+                checked=@MainLayout.UseImage 
+                type="checkbox" 
+                class="form-check-input" 
+                id="use-brand-image" 
+                @onchange="@((e) => MainLayout.UseImage = (bool)(e.Value as bool?))" />
             <label class="form-check-label" for="use-brand-image">Use brand image</label>
         </div>
     </div>
@@ -62,13 +75,23 @@
             <ul class="list-unstyled pl-4 mt-2">
                 <li>
                     <div class="form-group form-check">
-                        <input checked=@MainLayout.HideBrandTitle type="checkbox" class="form-check-input" id="hide-brand-title" @onchange="@((e) => MainLayout.HideBrandTitle = (bool)(e.Value as bool?))" />
+                        <input 
+                            checked=@MainLayout.HideTitle 
+                            type="checkbox" 
+                            class="form-check-input" 
+                            id="hide-brand-title" 
+                            @onchange="@((e) => MainLayout.HideTitle = (bool)(e.Value as bool?))" />
                         <label class="form-check-label" for="hide-brand-title">Hide brand title</label>
                     </div>
                 </li>
                 <li>
                     <div class="form-group form-check">
-                        <input checked=@MainLayout.HideBrandImage type="checkbox" class="form-check-input" id="hide-brand-image" @onchange="@((e) => MainLayout.HideBrandImage = (bool)(e.Value as bool?))" />
+                        <input 
+                            checked=@MainLayout.HideImage 
+                            type="checkbox" 
+                            class="form-check-input" 
+                            id="hide-brand-image" 
+                            @onchange="@((e) => MainLayout.HideImage = (bool)(e.Value as bool?))" />
                         <label class="form-check-label" for="hide-brand-image">Hide brand image</label>
                     </div>
                 </li>
@@ -103,41 +126,42 @@
             <div class="pt-2 pl-4">
                 <div class="form-group form-check">
                     <input 
-                        checked=@MainLayout.UseDarkMode 
+                        checked=@(MainLayout.BackgroundMode == BackgroundModes.Dark)
                         type="radio" class="form-check-input" 
                         id="dark-mode" 
-                        @onchange="@((e) => { MainLayout.UseDarkMode = true; MainLayout.UseLightMode = false; MainLayout.UseBackgroundImage = false; })" />
+                        @onchange="@((e) => MainLayout.BackgroundMode = BackgroundModes.Dark)" />
                     <label class="form-check-label" for="dark-mode">Dark Mode</label>
                 </div>
                 <div class="form-group form-check">
                     <input 
-                        checked=@MainLayout.UseLightMode 
+                        checked=@(MainLayout.BackgroundMode == BackgroundModes.Light)
                         type="radio" class="form-check-input" 
                         id="light-mode" 
-                        @onchange="@((e) => { MainLayout.UseDarkMode = false; MainLayout.UseLightMode = true; MainLayout.UseBackgroundImage = false; })" />
+                        @onchange="@((e) => MainLayout.BackgroundMode = BackgroundModes.Light)" />
                     <label class="form-check-label" for="light-mode">Light Mode</label>
                 </div>
                 <div class="form-group form-check">
                     <input 
-                        checked=@MainLayout.UseBackgroundImage 
+                        checked=@(MainLayout.BackgroundMode == BackgroundModes.Image) 
                         type="radio" 
                         class="form-check-input" 
                         id="use-background-image" 
-                        @onchange="@((e) => { MainLayout.UseDarkMode = false; MainLayout.UseLightMode = false; MainLayout.UseBackgroundImage = true; })" />
+                        @onchange="@((e) => MainLayout.BackgroundMode = BackgroundModes.Image)" />
                     <label class="form-check-label" for="use-background-image">Use Background Image</label>
                 </div>
                 <div class="form-group form-check">
                     <input 
-                        checked=@(!MainLayout.UseDarkMode && !MainLayout.UseLightMode && !MainLayout.UseBackgroundImage) 
+                        checked=@(MainLayout.BackgroundMode == BackgroundModes.Gradient)
                         type="radio" 
                         class="form-check-input" 
                         id="use-background-color" 
-                        @onchange="@((e) => { MainLayout.UseDarkMode = false; MainLayout.UseLightMode = false; MainLayout.UseBackgroundImage = false; })" />
+                        @onchange="@((e) => MainLayout.BackgroundMode = BackgroundModes.Gradient)" />
                     <label class="form-check-label" for="use-background-color">Use Background Color</label>
                 </div>
                 <div class="form-group">
                     <label for="top-app-bar-type">Direction</label>
-                    <select class="form-control" 
+                    <select 
+                        class="form-control" 
                         id="top-app-bar-type" 
                         @oninput="@((e) => MainLayout.BackgroundColorDirection = Enum.Parse<BackgroundColorDirections>(e.Value as string))">
                         <option value="@BackgroundColorDirections.TopToBottom" selected=@(MainLayout.BackgroundColorDirection == BackgroundColorDirections.TopToBottom ? true : false)>Top To Bottom</option>
@@ -153,7 +177,8 @@
         <div class="col col-sm-8 col-xl-4">
             <div class="form-group pl-4">
                 <label for="start-color">Start Color (name, rgb, or hex)</label>
-                <input class="form-control" 
+                <input 
+                    class="form-control" 
                     id="start-color" 
                     type="text" 
                     value="@MainLayout.BackgroundColorStart" 
@@ -165,7 +190,8 @@
         <div class="col col-sm-8 col-xl-4">
             <div class="form-group pl-4">
                 <label for="end-color">End Color (name, rgb, or hex)</label>
-                <input class="form-control" 
+                <input 
+                    class="form-control" 
                     id="end-color" 
                     type="text" 
                     value="@MainLayout.BackgroundColorEnd" 
@@ -177,7 +203,8 @@
         <div class="col col-sm-8 col-xl-4">
             <div class="form-group pl-4">
                 <label for="end-color">Text Color (name, rgb, or hex)</label>
-                <input class="form-control" 
+                <input 
+                    class="form-control" 
                     id="end-color" 
                     type="text" 
                     value="@MainLayout.Color" 

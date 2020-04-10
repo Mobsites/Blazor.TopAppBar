@@ -1,7 +1,7 @@
 @inherits ParentComponent
 
 @{
-  string type = this.Variant switch
+  string variant = this.Variant switch
   {
     Variants.Standard => null,
     Variants.Fixed => "mdc-top-app-bar--fixed",
@@ -15,27 +15,9 @@
     Variants.ShortAlways => "mdc-top-app-bar--short mdc-top-app-bar--short-collapsed",
     _ => null
   };
-
-  string color = UseDarkMode
-    ? $"color:{DarkModeColor};"
-    : UseLightMode
-      ? $"color:{LightModeColor};"
-      : UseColor
-        ? $"color:{Color};"
-        : string.Empty;
-
-  string background = UseDarkMode
-    ? $"background-color:{DarkModeBackgroundColor};"
-    : UseLightMode
-      ? $"background-color:{LightModeBackgroundColor};"
-      : UseBackgroundImage
-        ? $"background:url('skyline.jpg') no-repeat center;"
-        : UseBackgroundColor
-          ? $"background-image:linear-gradient({(int)BackgroundColorDirection}deg, {BackgroundColorStart} 0%, {BackgroundColorEnd} 90%);"
-          : string.Empty;
 }
 
-<header class="mdc-top-app-bar @type @Class" style="@background @color @Style" @attributes="@ExtraAttributes">
+<header class="mdc-top-app-bar @variant @Class" style="@Style" @attributes="@ExtraAttributes">
   <div class="mdc-top-app-bar__row">
     <CascadingValue Value="this">
       @ChildContent
