@@ -12,6 +12,11 @@ namespace Mobsites.Blazor
     public partial class TopAppBarActions
     {
         /// <summary>
+        /// Content to render.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
         /// Whether to show all actions on all device sizes. Default is to hide all but first on small devices.
         /// </summary>
         [Parameter] public bool ShowActionsAlways { get; set; }

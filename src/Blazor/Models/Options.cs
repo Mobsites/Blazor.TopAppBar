@@ -5,7 +5,7 @@ namespace Mobsites.Blazor
 {
     public partial class TopAppBar
     {
-        internal class Options : ParentOptions
+        internal class Options : StatefulComponentOptions
         {
             public Variants Variant { get; set; }
             public string Adjustment { get; set; }
@@ -14,7 +14,6 @@ namespace Mobsites.Blazor
             public bool HideTitle { get; set; }
             public bool UseImage { get; set; }
             public bool HideImage { get; set; }
-            public bool UseBackgroundImage { get; set; }
             public bool ShowActionsAlways { get; set; }
             public bool Destroy { get; set; }
         }

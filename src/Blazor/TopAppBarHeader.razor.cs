@@ -12,6 +12,11 @@ namespace Mobsites.Blazor
     public partial class TopAppBarHeader
     {
         /// <summary>
+        /// Content to render.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
         /// A title to display.
         /// </summary>
         [Parameter] public string Title { get; set; }

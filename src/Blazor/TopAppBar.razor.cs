@@ -60,62 +60,62 @@ namespace Mobsites.Blazor
         
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
+            if (firstRender)
+            {
+                await Initialize();
+            }
+            else
+            {
+                await Refresh();
+            }
+        }
+
+        private async Task Initialize()
+        {
             var options = this.KeepState 
                 ? this.UseSessionStorageForState
                     ? await this.Storage.Session.GetAsync<Options>(nameof(TopAppBar))
                     : await this.Storage.Local.GetAsync<Options>(nameof(TopAppBar))
                 : null;
 
-            if (firstRender)
+            if (options is null)
             {
-                if (options is null)
-                {
-                    options = this.SetOptions();
-                }
-                else
-                {
-                    await this.CheckState(options);
-                }
-
-                // Destroy any lingering js representation.
-                options.Destroy = true;
-                
-                this.initialized = await this.jsRuntime.InvokeAsync<bool>(
-                    "Mobsites.Blazor.TopAppBar.init",
-                    options);
+                options = this.SetOptions();
             }
             else
             {
-                // Use current state if...
-                if (this.initialized || options is null)
-                {
-                    options = this.SetOptions();
-                }
-
-                this.initialized = await this.jsRuntime.InvokeAsync<bool>(
-                    "Mobsites.Blazor.TopAppBar.refresh",
-                    options);
+                await this.CheckState(options);
             }
 
-            // Clear destory before saving.
-            options.Destroy = false;
+            // Destroy any lingering js representation.
+            options.Destroy = true;
+            
+            this.initialized = await this.jsRuntime.InvokeAsync<bool>(
+                "Mobsites.Blazor.TopAppBar.init",
+                options);
 
-            if (this.KeepState)
+            await Save(options);
+        }
+
+        private async Task Refresh()
+        {
+            var options = this.KeepState 
+                ? this.UseSessionStorageForState
+                    ? await this.Storage.Session.GetAsync<Options>(nameof(TopAppBar))
+                    : await this.Storage.Local.GetAsync<Options>(nameof(TopAppBar))
+                : null;
+
+            // Use current state if...
+            if (this.initialized || options is null)
             {
-                if (this.UseSessionStorageForState)
-                {
-                    await this.Storage.Session.SetAsync(nameof(TopAppBar), options);
-                }
-                else
-                {
-                    await this.Storage.Local.SetAsync(nameof(TopAppBar), options);
-                }
+                options = this.SetOptions();
             }
-            else
-            {
-                await this.Storage.Session.RemoveAsync<Options>(nameof(TopAppBar));
-                await this.Storage.Local.RemoveAsync<Options>(nameof(TopAppBar));
-            }
+
+            this.initialized = await this.jsRuntime.InvokeAsync<bool>(
+                "Mobsites.Blazor.TopAppBar.refresh",
+                options);
+
+            await Save(options);
         }
 
         private string GetAdjustment() => this.Variant switch
@@ -163,6 +163,29 @@ namespace Mobsites.Blazor
             await base.CheckState(options);
             await this.TopAppBarHeader?.CheckState(options);
             await this.TopAppBarActions?.CheckState(options);
+        }
+
+        private async Task Save(Options options)
+        {
+            // Clear destory before saving.
+            options.Destroy = false;
+
+            if (this.KeepState)
+            {
+                if (this.UseSessionStorageForState)
+                {
+                    await this.Storage.Session.SetAsync(nameof(TopAppBar), options);
+                }
+                else
+                {
+                    await this.Storage.Local.SetAsync(nameof(TopAppBar), options);
+                }
+            }
+            else
+            {
+                await this.Storage.Session.RemoveAsync<Options>(nameof(TopAppBar));
+                await this.Storage.Local.RemoveAsync<Options>(nameof(TopAppBar));
+            }
         }
 
         public void Dispose()
