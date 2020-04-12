@@ -19,7 +19,7 @@
     <PackageReleaseNotes>First preview release.</PackageReleaseNotes>
     <PackageVersion>1.0.0-preview1</PackageVersion>
     <PackageTags>blazor;mdc;app bar;material;design;google;component</PackageTags>
-    <PackageProjectUrl>https://github.com/Mobsites/Blazor.TopAppBar</PackageProjectUrl>
+    <PackageProjectUrl>https://mobsites.github.io/Blazor.TopAppBar</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Mobsites/Blazor.TopAppBar</RepositoryUrl>
   </PropertyGroup>
