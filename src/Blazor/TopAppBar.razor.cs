@@ -19,6 +19,12 @@ namespace Mobsites.Blazor
         private bool initialized;
 
         /// <summary>
+        /// Content to render.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+
+        /// <summary>
         /// Child reference. (Assigned by child.)
         /// </summary>
         internal TopAppBarHeader TopAppBarHeader { get; set; }

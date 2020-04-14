@@ -5,7 +5,7 @@ namespace Mobsites.Blazor
 {
     public partial class TopAppBar
     {
-        internal class Options : StatefulComponentOptions
+        internal class Options : OptionsBase
         {
             public Variants Variant { get; set; }
             public string Adjustment { get; set; }
