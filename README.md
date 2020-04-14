@@ -94,7 +94,7 @@ Below highlights some of the built-in C# attributes and their defaults (if any).
 ```
 
 ## Keeping State
-Keeping state is as simple as setting the `KeepState` attribute to true. This component will keep relevant state in the browser's storage. To get a sense of this, check out the [demo](https://www.mobsites.com/Blazor.AppDrawer/), change some options, and refresh the browser to force a reload of the app. 
+Keeping state is as simple as setting the `KeepState` attribute to true. This component will keep relevant state in the browser's storage. To get a sense of this, check out the [demo](https://www.mobsites.com/Blazor.TopAppBar/), change some options, and refresh the browser to force a reload of the app. 
 
 ## Possible CSS Rule Conflicts
 
