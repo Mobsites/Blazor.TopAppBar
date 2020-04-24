@@ -5,7 +5,10 @@ trigger:
   tags:
     include:
     - v*
-  
+
+# no PR triggers
+pr: none
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -31,6 +34,9 @@ steps:
   displayName: Pack Src
 
 # Upload the NuGet package file to nuget.org
+# Important notes:
+#    For this to work, you need to create a 'service connection' in Azure Pipelines with the same name
+#    as the 'publishFeedCredentials' value, or use the name of one you already have in place.
 - task: NuGetCommand@2
   displayName: Push Src
   inputs:
