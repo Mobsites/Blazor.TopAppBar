@@ -7,10 +7,9 @@ using Microsoft.AspNetCore.Components;
 namespace Mobsites.Blazor
 {
     /// <summary>
-    /// UI subcomponent for the <see cref="TopAppBarHeader" /> component 
-    /// that acts as a container for action items or links.
+    /// UI child component for rendering the application title in the <see cref="TopAppBarHeader" /> component.
     /// </summary>
-    public partial class TopAppBarActions
+    public partial class TopAppBarHeaderTitle
     {
         /****************************************************
         *
@@ -24,14 +23,14 @@ namespace Mobsites.Blazor
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
-        /// Whether to show all actions on all device sizes. Default is to hide all but first on small devices.
+        /// Whether to hide title on small devices.
         /// </summary>
-        [Parameter] public bool ShowActionsAlways { get; set; }
+        [Parameter] public bool HideOnSmallDevices { get; set; }
 
         /// <summary>
         /// Call back event for notifying another component that this property changed. 
         /// </summary>
-        [Parameter] public EventCallback<bool> ShowActionsAlwaysChanged { get; set; }
+        [Parameter] public EventCallback<bool> HideOnSmallDevicesChanged { get; set; }
 
 
 
@@ -45,34 +44,32 @@ namespace Mobsites.Blazor
         {
             // This will check for valid parent.
             base.OnParametersSet();
-            base.Parent.TopAppBarActions = this;
+            base.Parent.TopAppBarHeaderTitle = this;
         }
 
         internal void SetOptions(TopAppBar.Options options)
         {
-            options.ShowActionsAlways = this.ShowActionsAlways;
-            options.TopAppBarActions = new Options
+            options.HideTitleOnSmallDevices = this.HideOnSmallDevices;
+            options.TopAppBarHeaderTitle = new Options
             {
 
             };
 
-            base.SetOptions(options.TopAppBarActions);
+            base.SetOptions(options.TopAppBarHeaderTitle);
         }
 
         internal async Task<bool> CheckState(TopAppBar.Options options)
         {
             bool stateChanged = false;
 
-            if (this.ShowActionsAlways != options.ShowActionsAlways)
+            if (this.HideOnSmallDevices != options.HideTitleOnSmallDevices)
             {
-                this.ShowActionsAlways = options.ShowActionsAlways;
-                await this.ShowActionsAlwaysChanged.InvokeAsync(options.ShowActionsAlways);
+                this.HideOnSmallDevices = options.HideTitleOnSmallDevices;
+                await this.HideOnSmallDevicesChanged.InvokeAsync(this.HideOnSmallDevices);
                 stateChanged = true;
             }
 
-            bool baseStateChanged = await base.CheckState(options.TopAppBarActions);
-
-            return stateChanged || baseStateChanged;
+            return await base.CheckState(options.TopAppBarHeaderTitle) || stateChanged;
         }
     }
 }

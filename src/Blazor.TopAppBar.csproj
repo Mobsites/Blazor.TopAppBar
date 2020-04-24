@@ -11,13 +11,13 @@
     <Company>Mobsites</Company>
     <Authors>Allan Mobley</Authors>
     <Copyright>© 2020 Mobsites</Copyright>
-    <Description>A Blazor component that utilizes the MDC Top App Bar library and acts as a container for items such as application title, navigation icon, and action items.</Description>
+    <Description>A Blazor UI component for containing items such as the application title, navigation icon, and action items.</Description>
     <PackageId>Mobsites.Blazor.TopAppBar</PackageId>
     <IsPackable>true</IsPackable>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>mobsites-logo.png</PackageIcon>
-    <PackageReleaseNotes>First preview release.</PackageReleaseNotes>
-    <PackageVersion>1.0.0-preview1</PackageVersion>
+    <PackageReleaseNotes>Official release.</PackageReleaseNotes>
+    <PackageVersion>1.0.0</PackageVersion>
     <PackageTags>blazor;mdc;app bar;material;design;google;component</PackageTags>
     <PackageProjectUrl>https://www.mobsites.com</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
@@ -25,9 +25,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.2" />
-    <PackageReference Include="Mobsites.Blazor.BaseComponents" Version="1.0.0-preview1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.3" />
+    <PackageReference Include="Mobsites.Blazor.BaseComponents" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

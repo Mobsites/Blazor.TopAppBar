@@ -17,7 +17,7 @@ window.Mobsites.Blazor.TopAppBar = {
 		// SPA loads this file once on start, so check for existence before new-ing up another.
 		if (!window.Mobsites.Blazor.TopAppBar.initialized || options.destroy) {
 			if (window.Mobsites.Blazor.TopAppBar.self) {
-                window.Mobsites.Blazor.TopAppBar.self.destroy();
+				window.Mobsites.Blazor.TopAppBar.self.destroy();
 			}
 			this.assignMissingMDCClasses();
 			this.assignAdjustment();
@@ -40,6 +40,28 @@ window.Mobsites.Blazor.TopAppBar = {
 		return this.init(options);
 	},
 	assignMissingMDCClasses: function () {
+		if (window.Mobsites.Blazor.AppDrawer) {
+			if (window.Mobsites.Blazor.TopAppBar.options.aboveAppDrawer) {
+				const drawer = document.querySelector(
+					".mdc-drawer"
+				);
+				drawer.classList.add("blazor-topAppBar-adjustment");
+			}
+			const app_content = document.querySelector(
+				".mdc-drawer-app-content"
+			);
+			if (app_content) {
+				const self = document.querySelector(
+					".mdc-top-app-bar"
+				);
+				if (app_content.contains(self)) {
+					self.nextElementSibling.classList.add("blazor-topAppBar-adjustment", "blazor-main-content");
+				}
+				else {
+					app_content.classList.add("blazor-topAppBar-adjustment", "blazor-main-content");
+				}
+			}
+		}
 		const navigation_icon = document.querySelector(
 			".mdc-top-app-bar__navigation-icon"
 		);
@@ -53,6 +75,9 @@ window.Mobsites.Blazor.TopAppBar = {
 					start_container.firstElementChild.classList.add(
 						"mdc-top-app-bar__navigation-icon"
 					);
+					if (window.Mobsites.Blazor.AppDrawer) {
+						window.Mobsites.Blazor.AppDrawer.determineDrawerButtonVisibility();
+					}
 				}
 			}
 		}

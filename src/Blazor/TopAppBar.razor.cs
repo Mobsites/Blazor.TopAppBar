@@ -9,43 +9,23 @@ using System.Threading.Tasks;
 namespace Mobsites.Blazor
 {
     /// <summary>
-    /// Blazor component that utilizes the MDC Top App Bar library and acts as a container for items such as application title, navigation icon, and action items.
+    /// UI component for containing items such as the application title, navigation icon, and action items.
     /// </summary>
     public partial class TopAppBar : IDisposable
     {
-        /// <summary>
-        /// Whether the component has been completely initialized, including its JavaScript representation.
-        /// </summary>
-        private bool initialized;
+        /****************************************************
+        *
+        *  PUBLIC INTERFACE
+        *
+        ****************************************************/
 
         /// <summary>
         /// Content to render.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-
         /// <summary>
-        /// Child reference. (Assigned by child.)
-        /// </summary>
-        internal TopAppBarHeader TopAppBarHeader { get; set; }
-
-        /// <summary>
-        /// Child reference. (Assigned by child.)
-        /// </summary>
-        internal TopAppBarActions TopAppBarActions { get; set; }
-
-        /// <summary>
-        /// Use this css class marker on content below the <see cref="TopAppBar"/> to prevent it from covering top part of said content.
-        /// </summary>
-        public const string AdjustmentMarkerClass = "blazor-topAppBar-adjustment";
-
-        /// <summary>
-        /// Use this as the id or as a class marker for the main content in your Blazor app.
-        /// </summary>
-        public const string MainContentMarker = "blazor-main-content";
-
-        /// <summary>
-        /// The variant state of <see cref="TopAppBar">.
+        /// The MDC Top App Bar variant to render.
         /// </summary>
         [Parameter] public Variants Variant { get; set; }
 
@@ -63,6 +43,34 @@ namespace Mobsites.Blazor
         /// Call back event for notifying another component that this property changed. 
         /// </summary>
         [Parameter] public EventCallback<bool> ScrollToTopChanged { get; set; }
+
+        /// <summary>
+        /// Whether this component is both used and should appear above (in markup) our Blazor App Drawer.
+        /// </summary>
+        [Parameter] public bool AboveAppDrawer { get; set; }
+
+        /// <summary>
+        /// Clear all state for this UI component and any of its dependents from browser storage.
+        /// </summary>
+        public ValueTask ClearState() => this.ClearState<TopAppBar, Options>();
+
+
+
+        /****************************************************
+        *
+        *  NON-PUBLIC INTERFACE
+        *
+        ****************************************************/
+
+        /// <summary>
+        /// Child reference. (Assigned by child.)
+        /// </summary>
+        internal TopAppBarHeader TopAppBarHeader { get; set; }
+
+        /// <summary>
+        /// Child reference. (Assigned by child.)
+        /// </summary>
+        internal TopAppBarActions TopAppBarActions { get; set; }
         
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
@@ -78,15 +86,11 @@ namespace Mobsites.Blazor
 
         private async Task Initialize()
         {
-            var options = this.KeepState 
-                ? this.UseSessionStorageForState
-                    ? await this.Storage.Session.GetAsync<Options>(nameof(TopAppBar))
-                    : await this.Storage.Local.GetAsync<Options>(nameof(TopAppBar))
-                : null;
+            var options = await this.GetState<TopAppBar, Options>();
 
             if (options is null)
             {
-                options = this.SetOptions();
+                options = this.GetOptions();
             }
             else
             {
@@ -100,28 +104,24 @@ namespace Mobsites.Blazor
                 "Mobsites.Blazor.TopAppBar.init",
                 options);
 
-            await Save(options);
+            await this.Save<TopAppBar, Options>(options);
         }
 
         private async Task Refresh()
         {
-            var options = this.KeepState 
-                ? this.UseSessionStorageForState
-                    ? await this.Storage.Session.GetAsync<Options>(nameof(TopAppBar))
-                    : await this.Storage.Local.GetAsync<Options>(nameof(TopAppBar))
-                : null;
+            var options = await this.GetState<TopAppBar, Options>();
 
             // Use current state if...
             if (this.initialized || options is null)
             {
-                options = this.SetOptions();
+                options = this.GetOptions();
             }
 
             this.initialized = await this.jsRuntime.InvokeAsync<bool>(
                 "Mobsites.Blazor.TopAppBar.refresh",
                 options);
 
-            await Save(options);
+            await this.Save<TopAppBar, Options>(options);
         }
 
         private string GetAdjustment() => this.Variant switch
@@ -139,12 +139,13 @@ namespace Mobsites.Blazor
             _ => null
         };
 
-        internal Options SetOptions()
+        internal Options GetOptions()
         {
             var options = new Options 
             {
                 Variant = this.Variant,
                 Adjustment = GetAdjustment(),
+                AboveAppDrawer = this.AboveAppDrawer,
                 ScrollToTop = this.ScrollToTop
             };
 
@@ -157,44 +158,33 @@ namespace Mobsites.Blazor
 
         internal async Task CheckState(Options options)
         {
-            if (this.Variant != options.Variant)
+            bool stateChanged = false;
+
+            if (this.Variant != (options.Variant ?? TopAppBar.Variants.Standard))
             {
-                await this.VariantChanged.InvokeAsync(options.Variant);
+                this.Variant = options.Variant ?? TopAppBar.Variants.Standard;
+                await this.VariantChanged.InvokeAsync(this.Variant);
+                stateChanged = true;
             }
             if (this.ScrollToTop != options.ScrollToTop)
             {
-                await this.ScrollToTopChanged.InvokeAsync(options.ScrollToTop);
+                this.ScrollToTop = options.ScrollToTop;
+                await this.ScrollToTopChanged.InvokeAsync(this.ScrollToTop);
+                stateChanged = true;
             }
 
-            await base.CheckState(options);
-            await this.TopAppBarHeader?.CheckState(options);
-            await this.TopAppBarActions?.CheckState(options);
+            bool baseStateChanged = await base.CheckState(options);
+            bool headerStateChanged = await this.TopAppBarHeader?.CheckState(options);
+            bool actionsStateChanged = await this.TopAppBarActions?.CheckState(options);
+
+            if (stateChanged 
+                || baseStateChanged
+                || headerStateChanged
+                || actionsStateChanged)
+                StateHasChanged();
         }
-
-        private async Task Save(Options options)
-        {
-            // Clear destory before saving.
-            options.Destroy = false;
-
-            if (this.KeepState)
-            {
-                if (this.UseSessionStorageForState)
-                {
-                    await this.Storage.Session.SetAsync(nameof(TopAppBar), options);
-                }
-                else
-                {
-                    await this.Storage.Local.SetAsync(nameof(TopAppBar), options);
-                }
-            }
-            else
-            {
-                await this.Storage.Session.RemoveAsync<Options>(nameof(TopAppBar));
-                await this.Storage.Local.RemoveAsync<Options>(nameof(TopAppBar));
-            }
-        }
-
-        public void Dispose()
+        
+        public override void Dispose()
         {
             this.initialized = false;
         }

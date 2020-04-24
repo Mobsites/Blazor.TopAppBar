@@ -1,4 +1,4 @@
-@inherits MainComponent
+@inherits StatefulComponent
 
 @{
   string variant = this.Variant switch
@@ -15,9 +15,11 @@
     Variants.ShortAlways => "mdc-top-app-bar--short mdc-top-app-bar--short-collapsed",
     _ => null
   };
+
+  string aboveAppDrawer = AboveAppDrawer ? "mdc-top-app-bar--above-mdc-app-drawer" : "mdc-top-app-bar--with-mdc-app-drawer";
 }
 
-<header class="mdc-top-app-bar @variant @Class" style="@Style" @attributes="@ExtraAttributes">
+<header class="mdc-top-app-bar @variant @aboveAppDrawer @Class" style="@Style" @attributes="@ExtraAttributes">
   <div class="mdc-top-app-bar__row">
     <CascadingValue Value="this">
       @ChildContent

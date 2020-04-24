@@ -1,5 +1,7 @@
 <TopAppBar
+    AboveAppDrawer
     KeepState
+    Id="Demo"
     @bind-Variant="@MainLayout.Variant"
     @bind-Color="@MainLayout.Color"
     @bind-BackgroundMode="@MainLayout.BackgroundMode"
@@ -8,15 +10,15 @@
     @bind-BackgroundColorEnd="@MainLayout.BackgroundColorEnd"
     BackgroundImage="skyline.jpg"
     @bind-ScrollToTop="@MainLayout.ScrollToTop">
-    <TopAppBarHeader
-        @bind-Title="@MainLayout.Title" 
-        @bind-HideTitle="@MainLayout.HideTitle" 
-        Image="blazor.png"
-        @bind-UseImage="@MainLayout.UseImage" 
-        @bind-HideImage="@MainLayout.HideImage">
+    <TopAppBarHeader>
         <button class="navbar-toggler bg-transparent no-outline" @onclick="ToggleNavMenu">
             <span class="oi oi-menu align-middle @(MainLayout.BackgroundMode == BackgroundModes.Light || MainLayout.BackgroundMode == BackgroundModes.Image ? "text-body" : "text-light")"></span>
         </button>
+        @if (MainLayout.UseImage)
+        {
+            <TopAppBarHeaderLogo Src="blazor.png" @bind-HideOnSmallDevices="@MainLayout.HideImage" />
+        }
+        <TopAppBarHeaderTitle @bind-HideOnSmallDevices="@MainLayout.HideTitle">@MainLayout.Title</TopAppBarHeaderTitle>
     </TopAppBarHeader>
     <TopAppBarActions @bind-ShowActionsAlways="@MainLayout.ShowActionsAlways">
         <a href="https://github.com/Mobsites/Blazor.TopAppBar" target="_blank" class="ml-md-auto pr-2"><img src="@(MainLayout.BackgroundMode == BackgroundModes.Light || MainLayout.BackgroundMode == BackgroundModes.Image ? "light-mode-" : string.Empty)github.png" width="24" height="24" /></a>
@@ -41,6 +43,11 @@
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="fetchdata">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </li>
+         <li class="nav-item px-3">
+            <NavLink class="nav-link" href="https://www.mobsites.com/blazor/top-app-bar" target="_blank">
+                <span class="oi oi-document" aria-hidden="true"></span> Docs
             </NavLink>
         </li>
     </ul>
