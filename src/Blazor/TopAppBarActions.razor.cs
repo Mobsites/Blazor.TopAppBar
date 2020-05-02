@@ -41,22 +41,18 @@ namespace Mobsites.Blazor
         *
         ****************************************************/
 
+        internal ElementReference ElemRef { get; set; }
+
         protected override void OnParametersSet()
         {
             // This will check for valid parent.
             base.OnParametersSet();
-            base.Parent.TopAppBarActions = this;
+            base.Parent.Actions = this;
         }
 
         internal void SetOptions(TopAppBar.Options options)
         {
             options.ShowActionsAlways = this.ShowActionsAlways;
-            options.TopAppBarActions = new Options
-            {
-
-            };
-
-            base.SetOptions(options.TopAppBarActions);
         }
 
         internal async Task<bool> CheckState(TopAppBar.Options options)
@@ -70,9 +66,7 @@ namespace Mobsites.Blazor
                 stateChanged = true;
             }
 
-            bool baseStateChanged = await base.CheckState(options.TopAppBarActions);
-
-            return stateChanged || baseStateChanged;
+            return stateChanged;
         }
     }
 }

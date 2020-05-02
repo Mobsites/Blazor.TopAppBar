@@ -19,7 +19,7 @@
   string aboveAppDrawer = AboveAppDrawer ? "mdc-top-app-bar--above-mdc-app-drawer" : "mdc-top-app-bar--with-mdc-app-drawer";
 }
 
-<header class="mdc-top-app-bar @variant @aboveAppDrawer @Class" style="@Style" @attributes="@ExtraAttributes">
+<header @ref="ElemRef" class="mdc-top-app-bar @variant @aboveAppDrawer @Class" style="@Style" @attributes="@ExtraAttributes">
   <div class="mdc-top-app-bar__row">
     <CascadingValue Value="this">
       @ChildContent

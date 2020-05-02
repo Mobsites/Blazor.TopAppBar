@@ -17,11 +17,14 @@ steps:
     version: 3.1.201
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
-# Build demo. Not strictly required to create the package,
+# Build samples. Not strictly required to create the package,
 # but we want the pipeline to halt if this step fails.
 - script: dotnet build --configuration Release
-  workingDirectory: demo
-  displayName: Build Demo
+  workingDirectory: samples/BlazorServer
+  displayName: Build BlazorServer
+- script: dotnet build --configuration Release
+  workingDirectory: samples/BlazorWasm
+  displayName: Build BlazorWasm
 
 # Create the NuGet package file
 - script: dotnet pack --configuration Release

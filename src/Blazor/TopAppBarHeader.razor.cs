@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 namespace Mobsites.Blazor
 {
     /// <summary>
-    /// UI subcomponent for the <see cref="TopAppBarHeader" /> component 
+    /// UI subcomponent for the <see cref="TopAppBar" /> component 
     /// that acts as a container for the application title, logo, and optional navigation button.
     /// </summary>
     public partial class TopAppBarHeader
@@ -34,41 +34,37 @@ namespace Mobsites.Blazor
         /// <summary>
         /// Child reference. (Assigned by child.)
         /// </summary>
-        internal TopAppBarHeaderTitle TopAppBarHeaderTitle { get; set; }
+        internal TopAppBarHeaderNavTrigger NavTrigger { get; set; }
 
         /// <summary>
         /// Child reference. (Assigned by child.)
         /// </summary>
-        internal TopAppBarHeaderLogo TopAppBarHeaderLogo { get; set; }
+        internal TopAppBarHeaderTitle Title { get; set; }
+
+        /// <summary>
+        /// Child reference. (Assigned by child.)
+        /// </summary>
+        internal TopAppBarHeaderLogo Logo { get; set; }
         
         protected override void OnParametersSet()
         {
             // This will check for valid parent.
             base.OnParametersSet();
-            base.Parent.TopAppBarHeader = this;
+            base.Parent.Header = this;
         }
 
         internal void SetOptions(TopAppBar.Options options)
         {
-            options.TopAppBarHeader = new Options
-            {
-
-            };
-
-            base.SetOptions(options.TopAppBarHeader);
-            TopAppBarHeaderLogo?.SetOptions(options);
-            TopAppBarHeaderTitle?.SetOptions(options);
+            Logo?.SetOptions(options);
+            Title?.SetOptions(options);
         }
 
         internal async Task<bool> CheckState(TopAppBar.Options options)
         {
-            bool baseStateChanged = await base.CheckState(options.TopAppBarHeader);
-            bool logoStateChanged = await TopAppBarHeaderLogo?.CheckState(options);
-            bool titleStateChanged = await TopAppBarHeaderTitle?.CheckState(options);
+            bool logoStateChanged = await Logo?.CheckState(options);
+            bool titleStateChanged = await Title?.CheckState(options);
 
-            return baseStateChanged
-                || logoStateChanged 
-                || titleStateChanged;
+            return logoStateChanged || titleStateChanged;
         }
     }
 }

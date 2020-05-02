@@ -44,18 +44,12 @@ namespace Mobsites.Blazor
         {
             // This will check for valid parent.
             base.OnParametersSet();
-            base.Parent.TopAppBarHeaderTitle = this;
+            base.Parent.Title = this;
         }
 
         internal void SetOptions(TopAppBar.Options options)
         {
             options.HideTitleOnSmallDevices = this.HideOnSmallDevices;
-            options.TopAppBarHeaderTitle = new Options
-            {
-
-            };
-
-            base.SetOptions(options.TopAppBarHeaderTitle);
         }
 
         internal async Task<bool> CheckState(TopAppBar.Options options)
@@ -69,7 +63,7 @@ namespace Mobsites.Blazor
                 stateChanged = true;
             }
 
-            return await base.CheckState(options.TopAppBarHeaderTitle) || stateChanged;
+            return stateChanged;
         }
     }
 }

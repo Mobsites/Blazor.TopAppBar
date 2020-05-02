@@ -90,18 +90,12 @@ namespace Mobsites.Blazor
         {
             // This will check for valid parent.
             base.OnParametersSet();
-            base.Parent.TopAppBarHeaderLogo = this;
+            base.Parent.Logo = this;
         }
 
         internal void SetOptions(TopAppBar.Options options)
         {
             options.HideLogoOnSmallDevices = this.HideOnSmallDevices;
-            options.TopAppBarHeaderLogo = new Options
-            {
-
-            };
-
-            base.SetOptions(options.TopAppBarHeaderLogo);
         }
 
         internal async Task<bool> CheckState(TopAppBar.Options options)
@@ -115,7 +109,7 @@ namespace Mobsites.Blazor
                 stateChanged = true;
             }
 
-            return await base.CheckState(options.TopAppBarHeaderLogo) || stateChanged;
+            return stateChanged;
         }
     }
 }

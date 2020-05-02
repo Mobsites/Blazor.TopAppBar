@@ -1,0 +1,7 @@
+@inherits ChildComponent<TopAppBarHeader>
+
+<span @ref="ElemRef" class="mdc-top-app-bar__navigation-icon @Class" style="@Style" @attributes="@ExtraAttributes">
+    <CascadingValue Value="this">
+      @ChildContent
+    </CascadingValue>
+</span>

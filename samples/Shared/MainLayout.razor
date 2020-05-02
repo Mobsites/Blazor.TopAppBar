@@ -1,0 +1,128 @@
+@inherits LayoutComponentBase
+
+<div class="sidebar">
+    <CascadingValue Value="this">
+        <NavMenu />
+    </CascadingValue>
+</div>
+
+<!-- Add adjustment class to prevent TopAppBar from hiding some of this content -->
+<div class="main @TopAppBar.AdjustmentMarkerClass @TopAppBar.MainContentMarker">
+    <div class="content px-4">
+        <CascadingValue Value="this">
+            @Body
+        </CascadingValue>
+    </div>
+</div>
+
+@code {
+    private TopAppBar.Variants variant = TopAppBar.Variants.Standard;
+    public TopAppBar.Variants Variant
+    {
+        get => variant; 
+        set
+        {
+            variant = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool hideTitle;
+    public bool HideTitle
+    {
+        get => hideTitle;  
+        set
+        {
+            hideTitle = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool hideImage;
+    public bool HideImage
+    {
+        get => hideImage; 
+        set
+        {
+            hideImage = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool scrollToTop = true;
+    public bool ScrollToTop
+    {
+        get => scrollToTop; 
+        set
+        {
+            scrollToTop = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool showActionsAlways;
+    public bool ShowActionsAlways
+    {
+        get => showActionsAlways; 
+        set
+        {
+            showActionsAlways = value;
+            StateHasChanged();
+        }
+    }
+
+    private BackgroundModes backgroundMode = BackgroundModes.Gradient;
+    public BackgroundModes BackgroundMode
+    {
+        get => backgroundMode; 
+        set
+        {
+            backgroundMode = value;
+            StateHasChanged();
+        }
+    }
+
+    private BackgroundColorDirections backgroundColorDirection = BackgroundColorDirections.LeftToRight;
+    public BackgroundColorDirections BackgroundColorDirection
+    {
+        get => backgroundColorDirection;
+        set 
+        {
+            backgroundColorDirection = value;
+            StateHasChanged();
+        }
+    }
+
+    private string backgroundColorStart = "rgb(5, 39, 103)";
+    public string BackgroundColorStart
+    {
+        get => backgroundColorStart;
+        set 
+        {
+            backgroundColorStart = value;
+            StateHasChanged();
+        }
+    }
+
+    private string backgroundColorEnd = "#3a0647";
+    public string BackgroundColorEnd
+    {
+        get => backgroundColorEnd;
+        set 
+        {
+            backgroundColorEnd = value;
+            StateHasChanged();
+        }
+    }
+
+    private string color = "white";
+    public string Color
+    {
+        get => color;
+        set 
+        {
+            color = value;
+            StateHasChanged();
+        }
+    }
+}

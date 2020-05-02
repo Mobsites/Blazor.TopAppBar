@@ -1,0 +1,85 @@
+<TopAppBar
+    AboveAppDrawer
+    KeepState
+    Id="Demo"
+    @bind-Variant="@MainLayout.Variant"
+    @bind-Color="@MainLayout.Color"
+    @bind-BackgroundMode="@MainLayout.BackgroundMode"
+    @bind-BackgroundColorDirection="@MainLayout.BackgroundColorDirection"
+    @bind-BackgroundColorStart="@MainLayout.BackgroundColorStart" 
+    @bind-BackgroundColorEnd="@MainLayout.BackgroundColorEnd"
+    BackgroundImage="_content/Shared/skyline.jpg"
+    @bind-ScrollToTop="@MainLayout.ScrollToTop">
+    <TopAppBarHeader>
+        <TopAppBarHeaderNavTrigger>
+            @{
+                string textColor = MainLayout.BackgroundMode == BackgroundModes.Light || MainLayout.BackgroundMode == BackgroundModes.Image ? "text-body" : "text-light";
+            }
+            <button class="navbar-toggler bg-transparent no-outline" @onclick="ToggleNavMenu">
+                <span class="oi oi-menu align-middle @textColor"></span>
+            </button>
+        </TopAppBarHeaderNavTrigger>
+        <TopAppBarHeaderLogo Src="_content/Shared/blazor.png" @bind-HideOnSmallDevices="@MainLayout.HideImage" />
+        <TopAppBarHeaderTitle @bind-HideOnSmallDevices="@MainLayout.HideTitle">Demo</TopAppBarHeaderTitle>
+    </TopAppBarHeader>
+    <TopAppBarActions @bind-ShowActionsAlways="@MainLayout.ShowActionsAlways">
+        @{
+            string image = MainLayout.BackgroundMode == BackgroundModes.Light || MainLayout.BackgroundMode == BackgroundModes.Image ? "dark" : "light";
+        }
+        <TopAppBarAction>
+            <a href="https://github.com/Mobsites/Blazor.NameOfComponent" target="_blank">
+                <img src="_content/Shared/@(image)-github.png" width="24" height="24" />
+            </a>
+        </TopAppBarAction>
+        <TopAppBarAction>
+             <a href="https://github.com/Mobsites" target="_blank">
+                <img src="_content/Shared/mobsites-logo.png" width="24" height="24" />
+            </a>
+        </TopAppBarAction>
+        <TopAppBarAction>
+            <a href="https://github.com/allan-mobley-jr" target="_blank">
+                <img src="_content/Shared/me.png" width="24" height="24" />
+            </a>
+        </TopAppBarAction>
+    </TopAppBarActions>
+</TopAppBar>
+
+<!-- Add adjustment class to prevent TopAppBar from hiding some of this content -->
+<div class="@NavMenuCssClass @TopAppBar.AdjustmentMarkerClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </li>
+         <li class="nav-item px-3">
+            <NavLink class="nav-link" href="https://www.mobsites.com/blazor/top-app-bar" target="_blank">
+                <span class="oi oi-document" aria-hidden="true"></span> Docs
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+
+    [CascadingParameter] MainLayout MainLayout { get; set; }
+
+    private bool collapseNavMenu = true;
+    
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

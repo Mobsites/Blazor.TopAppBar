@@ -62,16 +62,18 @@ namespace Mobsites.Blazor
         *
         ****************************************************/
 
+        internal ElementReference ElemRef { get; set; }
+        
         /// <summary>
         /// Child reference. (Assigned by child.)
         /// </summary>
-        internal TopAppBarHeader TopAppBarHeader { get; set; }
+        internal TopAppBarHeader Header { get; set; }
 
         /// <summary>
         /// Child reference. (Assigned by child.)
         /// </summary>
-        internal TopAppBarActions TopAppBarActions { get; set; }
-        
+        internal TopAppBarActions Actions { get; set; }
+
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -99,9 +101,15 @@ namespace Mobsites.Blazor
 
             // Destroy any lingering js representation.
             options.Destroy = true;
-            
+
             this.initialized = await this.jsRuntime.InvokeAsync<bool>(
                 "Mobsites.Blazor.TopAppBar.init",
+                new
+                {
+                    AppBar = this.ElemRef,
+                    NavTrigger = this.Header?.NavTrigger?.ElemRef,
+                    Actions = this.Actions?.ElemRef
+                },
                 options);
 
             await this.Save<TopAppBar, Options>(options);
@@ -119,6 +127,12 @@ namespace Mobsites.Blazor
 
             this.initialized = await this.jsRuntime.InvokeAsync<bool>(
                 "Mobsites.Blazor.TopAppBar.refresh",
+                new
+                {
+                    AppBar = this.ElemRef,
+                    NavTrigger = this.Header?.NavTrigger?.ElemRef,
+                    Actions = this.Actions?.ElemRef
+                },
                 options);
 
             await this.Save<TopAppBar, Options>(options);
@@ -141,7 +155,7 @@ namespace Mobsites.Blazor
 
         internal Options GetOptions()
         {
-            var options = new Options 
+            var options = new Options
             {
                 Variant = this.Variant,
                 Adjustment = GetAdjustment(),
@@ -150,8 +164,8 @@ namespace Mobsites.Blazor
             };
 
             base.SetOptions(options);
-            this.TopAppBarHeader?.SetOptions(options);
-            this.TopAppBarActions?.SetOptions(options);
+            this.Header?.SetOptions(options);
+            this.Actions?.SetOptions(options);
 
             return options;
         }
@@ -174,19 +188,14 @@ namespace Mobsites.Blazor
             }
 
             bool baseStateChanged = await base.CheckState(options);
-            bool headerStateChanged = await this.TopAppBarHeader?.CheckState(options);
-            bool actionsStateChanged = await this.TopAppBarActions?.CheckState(options);
+            bool headerStateChanged = await this.Header?.CheckState(options);
+            bool actionsStateChanged = await this.Actions?.CheckState(options);
 
-            if (stateChanged 
+            if (stateChanged
                 || baseStateChanged
                 || headerStateChanged
                 || actionsStateChanged)
                 StateHasChanged();
-        }
-        
-        public override void Dispose()
-        {
-            this.initialized = false;
         }
     }
 }
