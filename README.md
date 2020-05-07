@@ -4,7 +4,7 @@
 
 by <a href="https://www.mobsites.com"><img align="center" src="./src/assets/mobsites-logo.png" width="36" height="36" style="padding-top: 20px;" />obsites</a>
 
-A Blazor component that utilizes the [MDC Top App Bar](https://material.io/develop/web/components/top-app-bar/) library and acts as a container for items such as application title, navigation icon, and action items.
+A Blazor UI component that utilizes the [MDC Top App Bar](https://material.io/develop/web/components/top-app-bar/) library and acts as a container for items such as application title, navigation icon, and action items.
 
 ## [Demo](https://topappbar.mobsites.com)
 
