@@ -4,133 +4,132 @@
 import { MDCTopAppBar } from "@material/top-app-bar";
 
 if (!window.Mobsites) {
-	window.Mobsites = {
-		Blazor: {
+    window.Mobsites = {
+        Blazor: {
 
-		}
-	};
+        }
+    };
 }
 
-window.Mobsites.Blazor.TopAppBar = {
-	init: function (elemRefs, options) {
+window.Mobsites.Blazor.TopAppBars = {
+    store: [],
+    init: function (dotNetObjRef, elemRefs, options) {
+        try {
+            const index = this.add(new Mobsites_Blazor_TopAppBar(dotNetObjRef, elemRefs, options));
+            dotNetObjRef.invokeMethodAsync('SetIndex', index);
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    },
+    add: function (appBar) {
+        for (let i = 0; i < this.store.length; i++) {
+            if (this.store[i] == null) {
+                this.store[i] = appBar;
+                return i;
+            }
+        }
+        const index = this.store.length;
+        this.store[index] = appBar;
+        return index;
+    },
+    update: function (index, options) {
+        if (options.variant !== this.store[index].dotNetObjOptions.variant) {
+            var dotNetObjRef = this.store[index].dotNetObjRef;
+            var elemRefs = this.store[index].elemRefs;
+            this.destroy(index);
+            this.init(dotNetObjRef, elemRefs, options);
+        } else {
+            this.store[index].update(options);
+        }
+    },
+    destroy: function (index) {
+        this.store[index].destroy();
+        this.store[index] = null;
+    }
+}
+
+class Mobsites_Blazor_TopAppBar extends MDCTopAppBar {
+    constructor(dotNetObjRef, elemRefs, options) {
+        super(elemRefs.appBar);
+        this.dotNetObjRef = dotNetObjRef;
         this.elemRefs = elemRefs;
-        this.options = options;
-		// SPA loads this file once on start, so check for existence before new-ing up another.
-		if (!this.initialized || this.options.destroy) {
-			if (this.self) {
-				this.self.destroy();
-			}
-			this.assignMissingMDCClasses();
-			this.assignAdjustment();
-			this.self = new MDCTopAppBar(this.elemRefs.appBar);
-			this.initialized = true;
-			this.initEvents();
-		}
-		else {
-			this.assignMissingMDCClasses();
-			this.assignAdjustment();
-		}
-		return true;
-	},
-	refresh: function (elemRefs, options) {
-		if (options.variant !== this.options.variant) {
-			options.destroy = true;
-		}
-		return this.init(elemRefs, options);
-	},
-	assignMissingMDCClasses: function () {
-        const appDrawer = window.Mobsites.Blazor.AppDrawer;
-		if (appDrawer) {
-			if (this.options.aboveAppDrawer) {
-                // May not be fully initialized yet depending on the page layout.
-                const drawer = appDrawer.elemRefs
-                    ? appDrawer.elemRefs.drawer
-                    : document.querySelector(".mdc-drawer");
-                if (drawer) {
-                    drawer.classList.add("blazor-topAppBar-adjustment");
+        this.dotNetObjOptions = options;
+        this.determineActionsVisibility();
+        this.determineNavTriggerVisibility();
+        this.assignAdjustment();
+        this.initScrollEvents();
+    }
+    update(options) {
+        this.dotNetObjOptions = options;
+        this.determineActionsVisibility();
+        this.assignAdjustment();
+    }
+    assignAdjustment() {
+        const adjustment_content = document.querySelectorAll(
+            ".mdc-top-app-bar--adjustment"
+        );
+        if (adjustment_content) {
+            for (let index = 0; index < adjustment_content.length; index++) {
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--fixed-adjust"
+                );
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--prominent-fixed-adjust"
+                );
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--dense-fixed-adjust"
+                );
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--prominent-dense-fixed-adjust"
+                );
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--short-fixed-adjust"
+                );
+                adjustment_content[index].classList.add(
+                    this.dotNetObjOptions.adjustment
+                );
+            }
+        }
+    }
+    determineNavTriggerVisibility() {
+        if (this.elemRefs.navTrigger && Mobsites.Blazor.AppDrawers) {
+            // Cannot know which App Drawer this is associated with, so...
+            window.Mobsites.Blazor.AppDrawers.store.forEach(drawer => {
+                if (drawer)
+                    drawer.determineTriggerVisibility();
+            });
+        }
+    }
+    determineActionsVisibility() {
+        // Every child but first in specified container gets class assignment or un-assignment.
+        if (this.elemRefs.actions && this.elemRefs.actions.children) {
+            for (let index = 1; index < this.elemRefs.actions.children.length; index++) {
+                if (this.dotNetObjOptions.showActionsAlways) {
+                    this.elemRefs.actions.children[index].classList.remove(
+                        "mdc-top-app-bar--hide"
+                    );
+                } else {
+                    this.elemRefs.actions.children[index].classList.add("mdc-top-app-bar--hide");
                 }
-			}
-			const app_content = document.querySelector(
-				".mdc-drawer-app-content"
-			);
-			if (app_content) {
-				if (app_content.contains(this.elemRefs.appBar)) {
-					this.elemRefs.appBar.nextElementSibling.classList.add("blazor-topAppBar-adjustment", "blazor-main-content");
-				}
-				else {
-					app_content.classList.add("blazor-topAppBar-adjustment", "blazor-main-content");
-				}
-			}
-		}
-		if (this.elemRefs.navTrigger && appDrawer) {
-			appDrawer.determineDrawerButtonVisibility();
-		}
-		// Every child but first in specified container gets class assignment or un-assignment.
-		if (this.elemRefs.actions && this.elemRefs.actions.children) {
-			for (let index = 1; index < this.elemRefs.actions.children.length; index++) {
-				if (this.options.showActionsAlways) {
-					this.elemRefs.actions.children[index].classList.remove(
-						"mdc-top-app-bar-hide"
-					);
-				} else {
-					this.elemRefs.actions.children[index].classList.add("mdc-top-app-bar-hide");
-				}
-			}
-		}
-	},
-	assignAdjustment: function () {
-		const adjustment_content = document.querySelectorAll(
-			".blazor-topAppBar-adjustment"
-		);
-		if (adjustment_content) {
-			for (let index = 0; index < adjustment_content.length; index++) {
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--fixed-adjust"
-				);
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--prominent-fixed-adjust"
-				);
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--dense-fixed-adjust"
-				);
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--prominent-dense-fixed-adjust"
-				);
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--short-fixed-adjust"
-				);
-				adjustment_content[index].classList.add(
-					this.options.adjustment
-				);
-			}
-		}
-	},
-	initEvents: function () {
-		this.initAppDrawerToggleEvent();
-		this.initScrollToEvent();
-	},
-	initAppDrawerToggleEvent: function () {
-		if (window.Mobsites.Blazor.AppDrawer) {
-			this.self.listen("MDCTopAppBar:nav", this.toggleAppDrawerClickEvent);
-			const mainContent =
-				document.getElementById("blazor-main-content") ||
-				document.querySelector(".blazor-main-content");
-			if (mainContent) {
-				this.self.setScrollTarget(mainContent);
-			}
-		}
-	},
-	initScrollToEvent: function () {
-		if (this.elemRefs.navTrigger) {
-			this.elemRefs.navTrigger.addEventListener("click", this.scrollToEvent);
-		}
-	},
-	toggleAppDrawerClickEvent: function () {
-		window.Mobsites.Blazor.AppDrawer.self.open = !window.Mobsites.Blazor.AppDrawer.self.open;
-	},
-	scrollToEvent: function () {
-		if (window.Mobsites.Blazor.TopAppBar.options.scrollToTop) {
-			window.scrollTo(0, 0);
-		}
-	}
-};
+            }
+        }
+    }
+    initScrollEvents() {
+        var self = this;
+        if (self.elemRefs.navTrigger) {
+            self.elemRefs.navTrigger.addEventListener("click", () => {
+                if (self && self.dotNetObjOptions.scrollToTop) {
+                    window.scrollTo(0, 0);
+                }
+            });
+        }
+        const mainContent =
+            document.getElementById("mobsites-blazor-main-content") ||
+            document.querySelector(".mobsites-blazor-main-content");
+        if (mainContent) {
+            self.setScrollTarget(mainContent);
+        }
+    }
+}

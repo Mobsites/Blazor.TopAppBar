@@ -9,7 +9,7 @@ namespace Mobsites.Blazor
     /// <summary>
     /// UI child component for rendering the application logo in the <see cref="TopAppBarHeader" /> component.
     /// </summary>
-    public partial class TopAppBarHeaderLogo
+    public sealed partial class TopAppBarHeaderLogo
     {
         /****************************************************
         *
@@ -18,54 +18,57 @@ namespace Mobsites.Blazor
         ****************************************************/
 
         private string src;
-        
+
         /// <summary>
         /// Image source.
         /// </summary>
-        [Parameter] public string Src 
-        { 
-            get => src; 
-            set 
-            { 
+        [Parameter]
+        public string Src
+        {
+            get => src;
+            set
+            {
                 if (!string.IsNullOrEmpty(value))
                 {
                     src = value;
-                } 
-            } 
+                }
+            }
         }
 
         private int width = 36;
-        
+
         /// <summary>
         /// Image width. Defaults to 36px.
         /// </summary>
-        [Parameter] public int Width 
-        { 
-            get => width; 
-            set 
-            { 
+        [Parameter]
+        public int Width
+        {
+            get => width;
+            set
+            {
                 if (value > 0)
                 {
                     width = value;
-                } 
-            } 
+                }
+            }
         }
 
         private int height = 36;
-        
+
         /// <summary>
         /// Image height. Defaults to 36px.
         /// </summary>
-        [Parameter] public int Height 
-        { 
-            get => height; 
-            set 
-            { 
+        [Parameter]
+        public int Height
+        {
+            get => height;
+            set
+            {
                 if (value > 0)
                 {
                     height = value;
-                } 
-            } 
+                }
+            }
         }
 
         /// <summary>
@@ -86,6 +89,9 @@ namespace Mobsites.Blazor
         *
         ****************************************************/
 
+        /// <summary>
+        /// Life cycle method for when parameters from parent are set.
+        /// </summary>
         protected override void OnParametersSet()
         {
             // This will check for valid parent.
@@ -93,11 +99,18 @@ namespace Mobsites.Blazor
             base.Parent.Logo = this;
         }
 
+        /// <summary>
+        /// Set values on options that need to be maintained when keeping state.
+        /// </summary>
         internal void SetOptions(TopAppBar.Options options)
         {
             options.HideLogoOnSmallDevices = this.HideOnSmallDevices;
         }
 
+        /// <summary>
+        /// Check whether storage-retrieved options are different than current
+        /// and thereby need to notify parents of change when keeping state.
+        /// </summary>
         internal async Task<bool> CheckState(TopAppBar.Options options)
         {
             bool stateChanged = false;

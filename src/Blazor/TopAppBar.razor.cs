@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Mobsites.Blazor
@@ -11,7 +12,7 @@ namespace Mobsites.Blazor
     /// <summary>
     /// UI component for containing items such as the application title, navigation icon, and action items.
     /// </summary>
-    public partial class TopAppBar : IDisposable
+    public sealed partial class TopAppBar : IDisposable
     {
         /****************************************************
         *
@@ -50,6 +51,18 @@ namespace Mobsites.Blazor
         [Parameter] public bool AboveAppDrawer { get; set; }
 
         /// <summary>
+        /// Content to render.
+        /// </summary>
+        [JSInvokable]
+        public void SetIndex(int index)
+        {
+            if (Index < 0)
+            {
+                Index = index;
+            }
+        }
+
+        /// <summary>
         /// Clear all state for this UI component and any of its dependents from browser storage.
         /// </summary>
         public ValueTask ClearState() => this.ClearState<TopAppBar, Options>();
@@ -62,8 +75,32 @@ namespace Mobsites.Blazor
         *
         ****************************************************/
 
+        /// <summary>
+        /// Whether component environment is Blazor WASM or Server.
+        /// </summary>
+        internal bool IsWASM => RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY"));
+
+        private DotNetObjectReference<TopAppBar> self;
+
+        /// <summary>
+        /// Net reference passed into javascript representation.
+        /// </summary>
+        internal DotNetObjectReference<TopAppBar> Self
+        {
+            get => self ?? (Self = DotNetObjectReference.Create(this));
+            set => self = value;
+        }
+
+        /// <summary>
+        /// The index to this object's javascript representation in the object store.
+        /// </summary>
+        internal int Index { get; set; } = -1;
+
+        /// <summary>
+        /// Dom element reference passed into javascript representation.
+        /// </summary>
         internal ElementReference ElemRef { get; set; }
-        
+
         /// <summary>
         /// Child reference. (Assigned by child.)
         /// </summary>
@@ -74,6 +111,9 @@ namespace Mobsites.Blazor
         /// </summary>
         internal TopAppBarActions Actions { get; set; }
 
+        /// <summary>
+        /// Life cycle method for when component has been rendered in the dom and javascript interopt is fully ready.
+        /// </summary>
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -82,10 +122,13 @@ namespace Mobsites.Blazor
             }
             else
             {
-                await Refresh();
+                await Update();
             }
         }
 
+        /// <summary>
+        /// Initialize state and javascript representations.
+        /// </summary>
         private async Task Initialize()
         {
             var options = await this.GetState<TopAppBar, Options>();
@@ -99,11 +142,9 @@ namespace Mobsites.Blazor
                 await this.CheckState(options);
             }
 
-            // Destroy any lingering js representation.
-            options.Destroy = true;
-
             this.initialized = await this.jsRuntime.InvokeAsync<bool>(
-                "Mobsites.Blazor.TopAppBar.init",
+                "Mobsites.Blazor.TopAppBars.init",
+                Self,
                 new
                 {
                     AppBar = this.ElemRef,
@@ -115,7 +156,10 @@ namespace Mobsites.Blazor
             await this.Save<TopAppBar, Options>(options);
         }
 
-        private async Task Refresh()
+        /// <summary>
+        /// Update state.
+        /// </summary>
+        private async Task Update()
         {
             var options = await this.GetState<TopAppBar, Options>();
 
@@ -125,34 +169,17 @@ namespace Mobsites.Blazor
                 options = this.GetOptions();
             }
 
-            this.initialized = await this.jsRuntime.InvokeAsync<bool>(
-                "Mobsites.Blazor.TopAppBar.refresh",
-                new
-                {
-                    AppBar = this.ElemRef,
-                    NavTrigger = this.Header?.NavTrigger?.ElemRef,
-                    Actions = this.Actions?.ElemRef
-                },
+            await this.jsRuntime.InvokeVoidAsync(
+                "Mobsites.Blazor.TopAppBars.update",
+                Index,
                 options);
 
             await this.Save<TopAppBar, Options>(options);
         }
 
-        private string GetAdjustment() => this.Variant switch
-        {
-            Variants.Standard => "mdc-top-app-bar--fixed-adjust",
-            Variants.Fixed => "mdc-top-app-bar--fixed-adjust",
-            Variants.Prominent => "mdc-top-app-bar--prominent-fixed-adjust",
-            Variants.FixedProminent => "mdc-top-app-bar--prominent-fixed-adjust",
-            Variants.Dense => "mdc-top-app-bar--dense-fixed-adjust",
-            Variants.FixedDense => "mdc-top-app-bar--dense-fixed-adjust",
-            Variants.ProminentDense => "mdc-top-app-bar--prominent-dense-fixed-adjust",
-            Variants.FixedProminentDense => "mdc-top-app-bar--prominent-dense-fixed-adjust",
-            Variants.Short => "mdc-top-app-bar--short-fixed-adjust",
-            Variants.ShortAlways => "mdc-top-app-bar--short-fixed-adjust",
-            _ => null
-        };
-
+        /// <summary>
+        /// Get current or storage-saved options for keeping state.
+        /// </summary>
         internal Options GetOptions()
         {
             var options = new Options
@@ -170,6 +197,10 @@ namespace Mobsites.Blazor
             return options;
         }
 
+        /// <summary>
+        /// Check whether storage-retrieved options are different than current
+        /// and thereby need to notify parents of change when keeping state.
+        /// </summary>
         internal async Task CheckState(Options options)
         {
             bool stateChanged = false;
@@ -196,6 +227,34 @@ namespace Mobsites.Blazor
                 || headerStateChanged
                 || actionsStateChanged)
                 StateHasChanged();
+        }
+
+        /// <summary>
+        /// Get adjustment css class according to variant.
+        /// </summary>
+        private string GetAdjustment() => this.Variant switch
+        {
+            Variants.Standard => "mdc-top-app-bar--fixed-adjust",
+            Variants.Fixed => "mdc-top-app-bar--fixed-adjust",
+            Variants.Prominent => "mdc-top-app-bar--prominent-fixed-adjust",
+            Variants.FixedProminent => "mdc-top-app-bar--prominent-fixed-adjust",
+            Variants.Dense => "mdc-top-app-bar--dense-fixed-adjust",
+            Variants.FixedDense => "mdc-top-app-bar--dense-fixed-adjust",
+            Variants.ProminentDense => "mdc-top-app-bar--prominent-dense-fixed-adjust",
+            Variants.FixedProminentDense => "mdc-top-app-bar--prominent-dense-fixed-adjust",
+            Variants.Short => "mdc-top-app-bar--short-fixed-adjust",
+            Variants.ShortAlways => "mdc-top-app-bar--short-fixed-adjust",
+            _ => null
+        };
+
+        /// <summary>
+        /// Called by GC.
+        /// </summary>
+        public override void Dispose()
+        {
+            jsRuntime.InvokeVoidAsync("Mobsites.Blazor.TopAppBars.destroy", Index);
+            self?.Dispose();
+            base.Dispose();
         }
     }
 }

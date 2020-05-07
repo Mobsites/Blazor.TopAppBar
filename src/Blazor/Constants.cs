@@ -9,65 +9,60 @@ namespace Mobsites.Blazor
         /// <summary>
         /// Use this css class marker on content below the <see cref="TopAppBar"/> to prevent it from covering top part of said content.
         /// </summary>
-        public const string AdjustmentMarkerClass = "blazor-topAppBar-adjustment";
+        public const string AdjustmentMarkerClass = "mdc-top-app-bar--adjustment";
 
         /// <summary>
-        /// Use this as the id or as a class marker for the main content in your Blazor app.
-        /// </summary>
-        public const string MainContentMarker = "blazor-main-content";
-        
-        /// <summary>
-        /// The supported MDC variants of the <see cref="TopAppBar">.
+        /// The supported MDC variants of the <see cref="TopAppBar" />.
         /// </summary>
         public enum Variants
         {
             /// <summary>
-            /// Standard <see cref="TopAppBar"> scrolls up with the rest of the content and immediately reappears when scrolling down.
+            /// Standard <see cref="TopAppBar" /> scrolls up with the rest of the content and immediately reappears when scrolling down.
             /// </summary>
             Standard,
 
             /// <summary>
-            /// Fixed <see cref="TopAppBar"> stays at the top of the page and elevates above the content when scrolling.
+            /// Fixed <see cref="TopAppBar" /> stays at the top of the page and elevates above the content when scrolling.
             /// </summary>
             Fixed,
 
             /// <summary>
-            /// Prominent <see cref="TopAppBar"> appears taller than standard but functions the same.
+            /// Prominent <see cref="TopAppBar" /> appears taller than standard but functions the same.
             /// </summary>
             Prominent,
 
             /// <summary>
-            /// Fixed Prominent <see cref="TopAppBar"> appears taller than fixed but functions the same.
+            /// Fixed Prominent <see cref="TopAppBar" /> appears taller than fixed but functions the same.
             /// </summary>
             FixedProminent,
 
             /// <summary>
-            /// Dense <see cref="TopAppBar"> appears shorter than standard but functions the same.
+            /// Dense <see cref="TopAppBar" /> appears shorter than standard but functions the same.
             /// </summary>
             Dense,
 
             /// <summary>
-            /// Fixed Dense <see cref="TopAppBar"> appears shorter than fixed but functions the same.
+            /// Fixed Dense <see cref="TopAppBar" /> appears shorter than fixed but functions the same.
             /// </summary>
             FixedDense,
 
             /// <summary>
-            /// Prominent Dense <see cref="TopAppBar"> appears taller than standard and shorter than prominent but functions the same.
+            /// Prominent Dense <see cref="TopAppBar" /> appears taller than standard and shorter than prominent but functions the same.
             /// </summary>
             ProminentDense,
 
             /// <summary>
-            /// Fixed Prominent Dense <see cref="TopAppBar"> appears taller than fixed and shorter than fixed prominent but functions the same.
+            /// Fixed Prominent Dense <see cref="TopAppBar" /> appears taller than fixed and shorter than fixed prominent but functions the same.
             /// </summary>
             FixedProminentDense,
 
             /// <summary>
-            /// Short <see cref="TopAppBar"> collapses to the navigation icon side when scrolling.
+            /// Short <see cref="TopAppBar" /> collapses to the navigation icon side when scrolling.
             /// </summary>
             Short,
 
             /// <summary>
-            /// Short Always <see cref="TopAppBar"> stays collapsed to the navigation icon side regardless of scrolling.
+            /// Short Always <see cref="TopAppBar" /> stays collapsed to the navigation icon side regardless of scrolling.
             /// </summary>
             ShortAlways
         }

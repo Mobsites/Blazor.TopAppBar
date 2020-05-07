@@ -9,7 +9,7 @@ namespace Mobsites.Blazor
     /// Child component of the <see cref="TopAppBarActions" /> component 
     /// that acts as a container for a single action item or link.
     /// </summary>
-    public partial class TopAppBarAction
+    public sealed partial class TopAppBarAction
     {
         /****************************************************
         *

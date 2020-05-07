@@ -10,7 +10,7 @@ namespace Mobsites.Blazor
     /// UI subcomponent for the <see cref="TopAppBar" /> component 
     /// that acts as a container for the application title, logo, and optional navigation button.
     /// </summary>
-    public partial class TopAppBarHeader
+    public sealed partial class TopAppBarHeader
     {
         /****************************************************
         *
@@ -45,7 +45,10 @@ namespace Mobsites.Blazor
         /// Child reference. (Assigned by child.)
         /// </summary>
         internal TopAppBarHeaderLogo Logo { get; set; }
-        
+
+        /// <summary>
+        /// Life cycle method for when parameters from parent are set.
+        /// </summary>
         protected override void OnParametersSet()
         {
             // This will check for valid parent.
@@ -53,12 +56,19 @@ namespace Mobsites.Blazor
             base.Parent.Header = this;
         }
 
+        /// <summary>
+        /// Set values on options that need to be maintained when keeping state.
+        /// </summary>
         internal void SetOptions(TopAppBar.Options options)
         {
             Logo?.SetOptions(options);
             Title?.SetOptions(options);
         }
 
+        /// <summary>
+        /// Check whether storage-retrieved options are different than current
+        /// and thereby need to notify parents of change when keeping state.
+        /// </summary>
         internal async Task<bool> CheckState(TopAppBar.Options options)
         {
             bool logoStateChanged = await Logo?.CheckState(options);

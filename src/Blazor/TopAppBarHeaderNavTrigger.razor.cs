@@ -8,18 +8,20 @@ namespace Mobsites.Blazor
     /// <summary>
     /// UI child component for containing a navigation trigger, such as an icon or button, in the <see cref="TopAppBarHeader" /> component.
     /// </summary>
-    public partial class TopAppBarHeaderNavTrigger
+    public sealed partial class TopAppBarHeaderNavTrigger
     {
         /****************************************************
         *
         *  PUBLIC INTERFACE
         *
         ****************************************************/
-        
+
         /// <summary>
         /// Content to render.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+
 
         /****************************************************
         *
@@ -27,8 +29,14 @@ namespace Mobsites.Blazor
         *
         ****************************************************/
 
+        /// <summary>
+        /// Dom element reference passed into javascript representation.
+        /// </summary>
         internal ElementReference ElemRef { get; set; }
 
+        /// <summary>
+        /// Life cycle method for when parameters from parent are set.
+        /// </summary>
         protected override void OnParametersSet()
         {
             // This will check for valid parent.

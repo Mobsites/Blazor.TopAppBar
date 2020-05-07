@@ -10,7 +10,7 @@ namespace Mobsites.Blazor
     /// UI subcomponent for the <see cref="TopAppBarHeader" /> component 
     /// that acts as a container for action items or links.
     /// </summary>
-    public partial class TopAppBarActions
+    public sealed partial class TopAppBarActions
     {
         /****************************************************
         *
@@ -41,8 +41,14 @@ namespace Mobsites.Blazor
         *
         ****************************************************/
 
+        /// <summary>
+        /// Dom element reference passed into javascript representation.
+        /// </summary>
         internal ElementReference ElemRef { get; set; }
 
+        /// <summary>
+        /// Life cycle method for when parameters from parent are set.
+        /// </summary>
         protected override void OnParametersSet()
         {
             // This will check for valid parent.
@@ -50,11 +56,18 @@ namespace Mobsites.Blazor
             base.Parent.Actions = this;
         }
 
+        /// <summary>
+        /// Set values on options that need to be maintained when keeping state.
+        /// </summary>
         internal void SetOptions(TopAppBar.Options options)
         {
             options.ShowActionsAlways = this.ShowActionsAlways;
         }
 
+        /// <summary>
+        /// Check whether storage-retrieved options are different than current
+        /// and thereby need to notify parents of change when keeping state.
+        /// </summary>
         internal async Task<bool> CheckState(TopAppBar.Options options)
         {
             bool stateChanged = false;

@@ -9,7 +9,7 @@ namespace Mobsites.Blazor
     /// <summary>
     /// UI child component for rendering the application title in the <see cref="TopAppBarHeader" /> component.
     /// </summary>
-    public partial class TopAppBarHeaderTitle
+    public sealed partial class TopAppBarHeaderTitle
     {
         /****************************************************
         *
@@ -40,6 +40,9 @@ namespace Mobsites.Blazor
         *
         ****************************************************/
 
+        /// <summary>
+        /// Life cycle method for when parameters from parent are set.
+        /// </summary>
         protected override void OnParametersSet()
         {
             // This will check for valid parent.
@@ -47,11 +50,18 @@ namespace Mobsites.Blazor
             base.Parent.Title = this;
         }
 
+        /// <summary>
+        /// Set values on options that need to be maintained when keeping state.
+        /// </summary>
         internal void SetOptions(TopAppBar.Options options)
         {
             options.HideTitleOnSmallDevices = this.HideOnSmallDevices;
         }
 
+        /// <summary>
+        /// Check whether storage-retrieved options are different than current
+        /// and thereby need to notify parents of change when keeping state.
+        /// </summary>
         internal async Task<bool> CheckState(TopAppBar.Options options)
         {
             bool stateChanged = false;
