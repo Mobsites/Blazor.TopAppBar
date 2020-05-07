@@ -7,142 +7,74 @@ using Microsoft.AspNetCore.Components;
 namespace Mobsites.Blazor
 {
     /// <summary>
-    /// Blazor child component that acts as a container for the application title and optional navigation button.
+    /// UI subcomponent for the <see cref="TopAppBar" /> component 
+    /// that acts as a container for the application title, logo, and optional navigation button.
     /// </summary>
-    public partial class TopAppBarHeader
+    public sealed partial class TopAppBarHeader
     {
+        /****************************************************
+        *
+        *  PUBLIC INTERFACE
+        *
+        ****************************************************/
+
         /// <summary>
         /// Content to render.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        /// <summary>
-        /// A title to display.
-        /// </summary>
-        [Parameter] public string Title { get; set; }
+
+
+        /****************************************************
+        *
+        *  NON-PUBLIC INTERFACE
+        *
+        ****************************************************/
 
         /// <summary>
-        /// Call back event for notifying another component that this property changed. 
+        /// Child reference. (Assigned by child.)
         /// </summary>
-        [Parameter] public EventCallback<string> TitleChanged { get; set; }
+        internal TopAppBarHeaderNavTrigger NavTrigger { get; set; }
 
         /// <summary>
-        /// Whether to hide title on small devices.
+        /// Child reference. (Assigned by child.)
         /// </summary>
-        [Parameter] public bool HideTitle { get; set; }
+        internal TopAppBarHeaderTitle Title { get; set; }
 
         /// <summary>
-        /// Call back event for notifying another component that this property changed. 
+        /// Child reference. (Assigned by child.)
         /// </summary>
-        [Parameter] public EventCallback<bool> HideTitleChanged { get; set; }
+        internal TopAppBarHeaderLogo Logo { get; set; }
 
         /// <summary>
-        /// Whether to use image.
+        /// Life cycle method for when parameters from parent are set.
         /// </summary>
-        [Parameter] public bool UseImage { get; set; }
-
-        /// <summary>
-        /// Call back event for notifying another component that this property changed. 
-        /// </summary>
-        [Parameter] public EventCallback<bool> UseImageChanged { get; set; }
-
-        private string image;
-        
-        /// <summary>
-        /// Image source.
-        /// </summary>
-        [Parameter] public string Image 
-        { 
-            get => image; 
-            set 
-            { 
-                if (!string.IsNullOrEmpty(value))
-                {
-                    image = value;
-                } 
-            } 
-        }
-
-        private int imageWidth = 36;
-        
-        /// <summary>
-        /// Image width. Defaults to 36px.
-        /// </summary>
-        [Parameter] public int ImageWidth 
-        { 
-            get => imageWidth; 
-            set 
-            { 
-                if (value > 0)
-                {
-                    imageWidth = value;
-                } 
-            } 
-        }
-
-        private int imageHeight = 36;
-        
-        /// <summary>
-        /// Image height. Defaults to 36px.
-        /// </summary>
-        [Parameter] public int ImageHeight 
-        { 
-            get => imageHeight; 
-            set 
-            { 
-                if (value > 0)
-                {
-                    imageHeight = value;
-                } 
-            } 
-        }
-
-        /// <summary>
-        /// Whether to hide image on small devices.
-        /// </summary>
-        [Parameter] public bool HideImage { get; set; }
-
-        /// <summary>
-        /// Call back event for notifying another component that this property changed. 
-        /// </summary>
-        [Parameter] public EventCallback<bool> HideImageChanged { get; set; }
-
         protected override void OnParametersSet()
         {
             // This will check for valid parent.
             base.OnParametersSet();
-            base.Parent.TopAppBarHeader = this;
+            base.Parent.Header = this;
         }
 
+        /// <summary>
+        /// Set values on options that need to be maintained when keeping state.
+        /// </summary>
         internal void SetOptions(TopAppBar.Options options)
         {
-            options.Title = this.Title;
-            options.HideTitle = this.HideTitle;
-            options.UseImage = this.UseImage;
-            options.HideImage = this.HideImage;
+            Logo?.SetOptions(options);
+            Title?.SetOptions(options);
         }
 
-        internal async Task CheckState(TopAppBar.Options options)
+        /// <summary>
+        /// Check whether storage-retrieved options are different than current
+        /// and thereby need to notify parents of change when keeping state.
+        /// </summary>
+        internal async Task<bool> CheckState(TopAppBar.Options options)
         {
-            if (this.Title != options.Title)
-            {
-                await this.TitleChanged.InvokeAsync(options.Title);
-            }
+            bool logoStateChanged = await Logo?.CheckState(options);
+            bool titleStateChanged = await Title?.CheckState(options);
 
-            if (this.HideTitle != options.HideTitle)
-            {
-                await this.HideTitleChanged.InvokeAsync(options.HideTitle);
-            }
-
-            if (this.UseImage != options.UseImage)
-            {
-                await this.UseImageChanged.InvokeAsync(options.UseImage);
-            }
-
-            if (this.HideImage != options.HideImage)
-            {
-                await this.HideImageChanged.InvokeAsync(options.HideImage);
-            }
+            return logoStateChanged || titleStateChanged;
         }
     }
 }

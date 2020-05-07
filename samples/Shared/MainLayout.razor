@@ -1,0 +1,205 @@
+@inherits LayoutComponentBase
+
+<TopAppBar
+    AboveAppDrawer
+    KeepState
+    Id="Demo"
+    @bind-Variant="@Variant"
+    @bind-Color="@Color"
+    @bind-BackgroundMode="@BackgroundMode"
+    @bind-BackgroundColorDirection="@BackgroundColorDirection"
+    @bind-BackgroundColorStart="@BackgroundColorStart" 
+    @bind-BackgroundColorEnd="@BackgroundColorEnd"
+    BackgroundImage="_content/Shared/skyline.jpg"
+    @bind-ScrollToTop="@ScrollToTop">
+    <TopAppBarHeader>
+        <TopAppBarHeaderNavTrigger>
+            @{
+                string textColor = BackgroundMode == BackgroundModes.Light || BackgroundMode == BackgroundModes.Image ? "text-body" : "text-light";
+            }
+            <button class="navbar-toggler bg-transparent no-outline" @onclick="ToggleNavMenu">
+                <span class="oi oi-menu align-middle @textColor"></span>
+            </button>
+        </TopAppBarHeaderNavTrigger>
+        <TopAppBarHeaderLogo Src="_content/Shared/blazor.png" @bind-HideOnSmallDevices="@HideImage" />
+        <TopAppBarHeaderTitle @bind-HideOnSmallDevices="@HideTitle">Demo</TopAppBarHeaderTitle>
+    </TopAppBarHeader>
+    <TopAppBarActions @bind-ShowActionsAlways="@ShowActionsAlways">
+        @{
+            string image = BackgroundMode == BackgroundModes.Light || BackgroundMode == BackgroundModes.Image ? "dark" : "light";
+        }
+        <TopAppBarAction>
+            <a href="https://github.com/Mobsites/Blazor.NameOfComponent" target="_blank">
+                <img src="_content/Shared/@(image)-github.png" width="24" height="24" />
+            </a>
+        </TopAppBarAction>
+        <TopAppBarAction>
+             <a href="https://github.com/Mobsites" target="_blank">
+                <img src="_content/Shared/mobsites-logo.png" width="24" height="24" />
+            </a>
+        </TopAppBarAction>
+        <TopAppBarAction>
+            <a href="https://github.com/allan-mobley-jr" target="_blank">
+                <img src="_content/Shared/me.png" width="24" height="24" />
+            </a>
+        </TopAppBarAction>
+    </TopAppBarActions>
+</TopAppBar>
+
+<div class="sidebar">
+    <!-- Add adjustment class to prevent TopAppBar from hiding some of this content -->
+    <div class="@NavMenuCssClass @TopAppBar.AdjustmentMarkerClass" @onclick="ToggleNavMenu">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Home
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="counter">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Counter
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="fetchdata">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="https://www.mobsites.com/blazor/top-app-bar" target="_blank">
+                    <span class="oi oi-document" aria-hidden="true"></span> Docs
+                </NavLink>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Add adjustment class to prevent TopAppBar from hiding some of this content -->
+<div class="main @TopAppBar.AdjustmentMarkerClass">
+    <div class="content px-4">
+        <CascadingValue Value="this">
+            @Body
+        </CascadingValue>
+    </div>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private TopAppBar.Variants variant = TopAppBar.Variants.Standard;
+    public TopAppBar.Variants Variant
+    {
+        get => variant; 
+        set
+        {
+            variant = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool hideTitle;
+    public bool HideTitle
+    {
+        get => hideTitle;  
+        set
+        {
+            hideTitle = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool hideImage;
+    public bool HideImage
+    {
+        get => hideImage; 
+        set
+        {
+            hideImage = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool scrollToTop = true;
+    public bool ScrollToTop
+    {
+        get => scrollToTop; 
+        set
+        {
+            scrollToTop = value;
+            StateHasChanged();
+        }
+    }
+
+    private bool showActionsAlways;
+    public bool ShowActionsAlways
+    {
+        get => showActionsAlways; 
+        set
+        {
+            showActionsAlways = value;
+            StateHasChanged();
+        }
+    }
+
+    private BackgroundModes backgroundMode = BackgroundModes.Gradient;
+    public BackgroundModes BackgroundMode
+    {
+        get => backgroundMode; 
+        set
+        {
+            backgroundMode = value;
+            StateHasChanged();
+        }
+    }
+
+    private BackgroundColorDirections backgroundColorDirection = BackgroundColorDirections.LeftToRight;
+    public BackgroundColorDirections BackgroundColorDirection
+    {
+        get => backgroundColorDirection;
+        set 
+        {
+            backgroundColorDirection = value;
+            StateHasChanged();
+        }
+    }
+
+    private string backgroundColorStart = "rgb(5, 39, 103)";
+    public string BackgroundColorStart
+    {
+        get => backgroundColorStart;
+        set 
+        {
+            backgroundColorStart = value;
+            StateHasChanged();
+        }
+    }
+
+    private string backgroundColorEnd = "#3a0647";
+    public string BackgroundColorEnd
+    {
+        get => backgroundColorEnd;
+        set 
+        {
+            backgroundColorEnd = value;
+            StateHasChanged();
+        }
+    }
+
+    private string color = "white";
+    public string Color
+    {
+        get => color;
+        set 
+        {
+            color = value;
+            StateHasChanged();
+        }
+    }
+}

@@ -1,0 +1,364 @@
+@page "/"
+
+<h1>Blazor TopAppBar</h1>
+<h2 class="pl-5">by <img src="_content/Shared/mobsites-logo.png" width="42" height="42" />obsites</h2>
+<br />
+<div class="row mb-3">
+    <div class="col col-sm-8 col-xl-4">
+        <p>
+            <b>
+                NOTE: This demo component is set to keep state. Make some changes,
+                reload the page, and see how the changes are maintained.
+            </b>
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-md-6 col-lg-4">
+      <div class="form-group">
+        <label for="variant">Select Variant</label>
+        <select 
+            class="form-control" 
+            id="variant" 
+            @oninput="@((e) => MainLayout.Variant = (TopAppBar.Variants)Enum.Parse(typeof(TopAppBar.Variants), e.Value as string))">
+          <option value="@TopAppBar.Variants.Standard" selected=@(MainLayout.Variant == TopAppBar.Variants.Standard ? true : false)>Standard</option>
+          <option value="@TopAppBar.Variants.Fixed" selected=@(MainLayout.Variant == TopAppBar.Variants.Fixed ? true : false)>Fixed</option>
+          <option value="@TopAppBar.Variants.Prominent" selected=@(MainLayout.Variant == TopAppBar.Variants.Prominent ? true : false)>Prominent</option>
+          <option value="@TopAppBar.Variants.FixedProminent" selected=@(MainLayout.Variant == TopAppBar.Variants.FixedProminent ? true : false)>Fixed Prominent</option>
+          <option value="@TopAppBar.Variants.Dense" selected=@(MainLayout.Variant == TopAppBar.Variants.Dense ? true : false)>Dense</option>
+          <option value="@TopAppBar.Variants.FixedDense" selected=@(MainLayout.Variant == TopAppBar.Variants.FixedDense ? true : false)>Fixed Dense</option>
+          <option value="@TopAppBar.Variants.ProminentDense" selected=@(MainLayout.Variant == TopAppBar.Variants.ProminentDense ? true : false)>Prominent Dense</option>
+          <option value="@TopAppBar.Variants.FixedProminentDense" selected=@(MainLayout.Variant == TopAppBar.Variants.FixedProminentDense ? true : false)>Fixed Prominent Dense</option>
+          <option value="@TopAppBar.Variants.Short" selected=@(MainLayout.Variant == TopAppBar.Variants.Short ? true : false)>Short</option>
+          <option value="@TopAppBar.Variants.ShortAlways" selected=@(MainLayout.Variant == TopAppBar.Variants.ShortAlways ? true : false)>Short Always</option>
+        </select>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-sm-8 col-xl-4">
+        <b>On small devices:</b>
+        <ul class="list-unstyled pl-4 mt-2">
+            <li>
+                <div class="form-group form-check">
+                    <input 
+                        checked=@MainLayout.HideTitle 
+                        type="checkbox" 
+                        class="form-check-input" 
+                        id="hide-brand-title" 
+                        @onchange="@((e) => MainLayout.HideTitle = (bool)(e.Value as bool?))" />
+                    <label class="form-check-label" for="hide-brand-title">Hide brand title</label>
+                </div>
+            </li>
+            <li>
+                <div class="form-group form-check">
+                    <input 
+                        checked=@MainLayout.HideImage 
+                        type="checkbox" 
+                        class="form-check-input" 
+                        id="hide-brand-image" 
+                        @onchange="@((e) => MainLayout.HideImage = (bool)(e.Value as bool?))" />
+                    <label class="form-check-label" for="hide-brand-image">Hide brand image</label>
+                </div>
+            </li>
+            <li>
+                <div class="form-group form-check">
+                    <input 
+                        checked=@MainLayout.ShowActionsAlways 
+                        type="checkbox" 
+                        class="form-check-input" 
+                        id="show-actions-always" 
+                        @onchange="@((e) => MainLayout.ShowActionsAlways = (bool)(e.Value as bool?))" />
+                    <label class="form-check-label" for="show-actions-always">Show all actions</label>
+                </div>
+            </li>
+            <li>
+                <div class="form-group form-check">
+                    <input 
+                        checked=@MainLayout.ScrollToTop 
+                        type="checkbox" 
+                        class="form-check-input" 
+                        id="scrolll-to-top" 
+                        @onchange="@((e) => MainLayout.ScrollToTop = (bool)(e.Value as bool?))" />
+                    <label class="form-check-label" for="scrolll-to-top">Scroll to top of page when nav icon is clicked</label>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-sm-8 col-xl-4">
+        <b>Background:</b>
+        <div class="pt-2 pl-4">
+            <div class="form-group form-check">
+                <input 
+                    checked=@(MainLayout.BackgroundMode == BackgroundModes.Dark)
+                    type="radio" class="form-check-input" 
+                    id="dark-mode" 
+                    @onchange="@((e) => MainLayout.BackgroundMode = BackgroundModes.Dark)" />
+                <label class="form-check-label" for="dark-mode">Dark Mode</label>
+            </div>
+            <div class="form-group form-check">
+                <input 
+                    checked=@(MainLayout.BackgroundMode == BackgroundModes.Light)
+                    type="radio" class="form-check-input" 
+                    id="light-mode" 
+                    @onchange="@((e) => MainLayout.BackgroundMode = BackgroundModes.Light)" />
+                <label class="form-check-label" for="light-mode">Light Mode</label>
+            </div>
+            <div class="form-group form-check">
+                <input 
+                    checked=@(MainLayout.BackgroundMode == BackgroundModes.Image) 
+                    type="radio" 
+                    class="form-check-input" 
+                    id="use-background-image" 
+                    @onchange="@((e) => MainLayout.BackgroundMode = BackgroundModes.Image)" />
+                <label class="form-check-label" for="use-background-image">Use Background Image</label>
+            </div>
+            <div class="form-group form-check">
+                <input 
+                    checked=@(MainLayout.BackgroundMode == BackgroundModes.Gradient)
+                    type="radio" 
+                    class="form-check-input" 
+                    id="use-background-color" 
+                    @onchange="@((e) => MainLayout.BackgroundMode = BackgroundModes.Gradient)" />
+                <label class="form-check-label" for="use-background-color">Use Background Color</label>
+            </div>
+            <div class="form-group">
+                <label for="top-app-bar-type">Direction</label>
+                <select 
+                    class="form-control" 
+                    id="top-app-bar-type" 
+                    @oninput="@((e) => MainLayout.BackgroundColorDirection = (BackgroundColorDirections)Enum.Parse(typeof(BackgroundColorDirections), e.Value as string))">
+                    <option value="@BackgroundColorDirections.TopToBottom" selected=@(MainLayout.BackgroundColorDirection == BackgroundColorDirections.TopToBottom ? true : false)>Top To Bottom</option>
+                    <option value="@BackgroundColorDirections.BottomToTop" selected=@(MainLayout.BackgroundColorDirection == BackgroundColorDirections.BottomToTop ? true : false)>Bottom To Top</option>
+                    <option value="@BackgroundColorDirections.LeftToRight" selected=@(MainLayout.BackgroundColorDirection == BackgroundColorDirections.LeftToRight ? true : false)>Left To Right</option>
+                    <option value="@BackgroundColorDirections.RightToLeft" selected=@(MainLayout.BackgroundColorDirection == BackgroundColorDirections.RightToLeft ? true : false)>Right To Left</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-sm-8 col-xl-4">
+        <div class="form-group pl-4">
+            <label for="start-color">Start Color (name, rgb, or hex)</label>
+            <input 
+                class="form-control" 
+                id="start-color" 
+                type="text" 
+                value="@MainLayout.BackgroundColorStart" 
+                @onchange="@((e) => MainLayout.BackgroundColorStart = e.Value as string)"/>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-sm-8 col-xl-4">
+        <div class="form-group pl-4">
+            <label for="end-color">End Color (name, rgb, or hex)</label>
+            <input 
+                class="form-control" 
+                id="end-color" 
+                type="text" 
+                value="@MainLayout.BackgroundColorEnd" 
+                @onchange="@((e) => MainLayout.BackgroundColorEnd = e.Value as string)"/>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-sm-8 col-xl-4">
+        <div class="form-group pl-4">
+            <label for="color">Text Color (name, rgb, or hex)</label>
+            <input 
+                class="form-control" 
+                id="color" 
+                type="text" 
+                value="@MainLayout.Color" 
+                @onchange="@((e) => MainLayout.Color = e.Value as string)"/>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row mb-3">
+    <div class="col col-sm-8 col-xl-4">
+        <p>
+            <b>
+                * <small><i>This demonstrates the use of this component 
+                without a dependency on any of our other components. 
+                We, of course, recommend using this component in conjunction with our other components 
+                as they work seamlessly together and can benefit one another, 
+                not to mention there are often less css adjustments to incorporate.
+                But if you want to go solo, check out the source code for this demo</i> 
+                <a target="_blank" href="https://github.com/Mobsites/Blazor.TopAppBar/tree/master/samples">here</a>
+                as one approach.</small>
+            </b>
+        </p>
+    </div>
+</div>
+<br />
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+    anim id est laborum.
+</p>
+
+@code {
+    [CascadingParameter] MainLayout MainLayout { get; set; }
+}

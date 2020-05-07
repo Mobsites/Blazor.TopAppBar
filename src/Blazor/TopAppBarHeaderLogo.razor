@@ -1,0 +1,14 @@
+@inherits ChildComponent<TopAppBarHeader>
+
+@{
+    string css = HideOnSmallDevices ? "mdc-top-app-bar--hide" : string.Empty;
+}
+
+<div class="mdc-top-app-bar__title  @css">
+    <img src="@Src" 
+            width="@Width" 
+            height="@Height" 
+            class="mdc-top-app-bar--logo @Class" 
+            style="@Style" 
+            @attributes="@ExtraAttributes" />
+</div>

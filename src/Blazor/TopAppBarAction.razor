@@ -1,0 +1,7 @@
+@inherits ChildComponent<TopAppBarActions>
+
+<section class="mdc-top-app-bar__action-item @Class" style="@Style" @attributes="@ExtraAttributes">
+    <CascadingValue Value="this">
+      @ChildContent
+    </CascadingValue>
+</section>

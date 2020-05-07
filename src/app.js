@@ -4,141 +4,132 @@
 import { MDCTopAppBar } from "@material/top-app-bar";
 
 if (!window.Mobsites) {
-	window.Mobsites = {
-		Blazor: {
+    window.Mobsites = {
+        Blazor: {
 
-		}
-	};
+        }
+    };
 }
 
-window.Mobsites.Blazor.TopAppBar = {
-	init: function (options) {
-		window.Mobsites.Blazor.TopAppBar.options = options;
-		// SPA loads this file once on start, so check for existence before new-ing up another.
-		if (!window.Mobsites.Blazor.TopAppBar.initialized || options.destroy) {
-			if (window.Mobsites.Blazor.TopAppBar.self) {
-                window.Mobsites.Blazor.TopAppBar.self.destroy();
-			}
-			this.assignMissingMDCClasses();
-			this.assignAdjustment();
-			window.Mobsites.Blazor.TopAppBar.self = new MDCTopAppBar(
-				document.querySelector(".mdc-top-app-bar")
-			);
-			window.Mobsites.Blazor.TopAppBar.initialized = true;
-			this.initEvents();
-		}
-		else {
-			this.assignMissingMDCClasses();
-			this.assignAdjustment();
-		}
-		return true;
-	},
-	refresh: function (options) {
-		if (options.variant !== window.Mobsites.Blazor.TopAppBar.options.variant) {
-			options.destroy = true;
-		}
-		return this.init(options);
-	},
-	assignMissingMDCClasses: function () {
-		const navigation_icon = document.querySelector(
-			".mdc-top-app-bar__navigation-icon"
-		);
-		if (!navigation_icon) {
-			// Only first child in specified container gets class assignment.
-			const start_container = document.querySelector(
-				".mdc-top-app-bar__section.mdc-top-app-bar__section--align-start"
-			);
-			if (start_container) {
-				if (start_container.firstElementChild) {
-					start_container.firstElementChild.classList.add(
-						"mdc-top-app-bar__navigation-icon"
-					);
-				}
-			}
-		}
-		const end_container = document.querySelector(
-			".mdc-top-app-bar__section.mdc-top-app-bar__section--align-end"
-		);
-		const action_item = document.querySelector(".mdc-top-app-bar__action-item");
-		if (!action_item) {
-			// Every child in specified container gets class assignment.
-			if (end_container && end_container.children) {
-				for (let index = 0; index < end_container.children.length; index++) {
-					end_container.children[index].classList.add(
-						"mdc-top-app-bar__action-item"
-					);
-				}
-			}
-		}
-		// Every child but first in specified container gets class assignment or un-assignment.
-		if (end_container && end_container.children) {
-			for (let index = 1; index < end_container.children.length; index++) {
-				if (window.Mobsites.Blazor.TopAppBar.options.showActionsAlways) {
-					end_container.children[index].classList.remove(
-						"mdc-top-app-bar-hide"
-					);
-				} else {
-					end_container.children[index].classList.add("mdc-top-app-bar-hide");
-				}
-			}
-		}
-	},
-	assignAdjustment: function () {
-		const adjustment_content = document.querySelectorAll(
-			".blazor-topAppBar-adjustment"
-		);
-		if (adjustment_content) {
-			for (let index = 0; index < adjustment_content.length; index++) {
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--fixed-adjust"
-				);
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--prominent-fixed-adjust"
-				);
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--dense-fixed-adjust"
-				);
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--prominent-dense-fixed-adjust"
-				);
-				adjustment_content[index].classList.remove(
-					"mdc-top-app-bar--short-fixed-adjust"
-				);
-				adjustment_content[index].classList.add(
-					window.Mobsites.Blazor.TopAppBar.options.adjustment
-				);
-			}
-		}
-	},
-	initEvents: function () {
-		this.initAppDrawerToggleEvent();
-		this.initScrollToEvent();
-	},
-	initAppDrawerToggleEvent: function () {
-		if (window.Mobsites.Blazor.AppDrawer) {
-			window.Mobsites.Blazor.TopAppBar.self.listen("MDCTopAppBar:nav", this.toggleAppDrawerClickEvent);
-			const mainContent =
-				document.getElementById("blazor-main-content") ||
-				document.querySelector(".blazor-main-content");
-			if (mainContent) {
-				window.Mobsites.Blazor.TopAppBar.self.setScrollTarget(mainContent);
-			}
-		}
-	},
-	initScrollToEvent: function () {
-		const navigation_icon = document.querySelector(
-			".mdc-top-app-bar__navigation-icon"
-		);
-		if (navigation_icon) {
-			navigation_icon.addEventListener("click", this.scrollToEvent);
-		}
-	},
-	toggleAppDrawerClickEvent: function () {
-		window.Mobsites.Blazor.AppDrawer.self.open = !window.Mobsites.Blazor.AppDrawer.self.open;
-	},
-	scrollToEvent: function () {
-		if (window.Mobsites.Blazor.TopAppBar.options.scrollToTop) {
-			window.scrollTo(0, 0);
-		}
-	}
-};
+window.Mobsites.Blazor.TopAppBars = {
+    store: [],
+    init: function (dotNetObjRef, elemRefs, options) {
+        try {
+            const index = this.add(new Mobsites_Blazor_TopAppBar(dotNetObjRef, elemRefs, options));
+            dotNetObjRef.invokeMethodAsync('SetIndex', index);
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    },
+    add: function (appBar) {
+        for (let i = 0; i < this.store.length; i++) {
+            if (this.store[i] == null) {
+                this.store[i] = appBar;
+                return i;
+            }
+        }
+        const index = this.store.length;
+        this.store[index] = appBar;
+        return index;
+    },
+    update: function (index, options) {
+        if (options.variant !== this.store[index].dotNetObjOptions.variant) {
+            var dotNetObjRef = this.store[index].dotNetObjRef;
+            var elemRefs = this.store[index].elemRefs;
+            this.destroy(index);
+            this.init(dotNetObjRef, elemRefs, options);
+        } else {
+            this.store[index].update(options);
+        }
+    },
+    destroy: function (index) {
+        this.store[index].destroy();
+        this.store[index] = null;
+    }
+}
+
+class Mobsites_Blazor_TopAppBar extends MDCTopAppBar {
+    constructor(dotNetObjRef, elemRefs, options) {
+        super(elemRefs.appBar);
+        this.dotNetObjRef = dotNetObjRef;
+        this.elemRefs = elemRefs;
+        this.dotNetObjOptions = options;
+        this.determineActionsVisibility();
+        this.determineNavTriggerVisibility();
+        this.assignAdjustment();
+        this.initScrollEvents();
+    }
+    update(options) {
+        this.dotNetObjOptions = options;
+        this.determineActionsVisibility();
+        this.assignAdjustment();
+    }
+    assignAdjustment() {
+        const adjustment_content = document.querySelectorAll(
+            ".mdc-top-app-bar--adjustment"
+        );
+        if (adjustment_content) {
+            for (let index = 0; index < adjustment_content.length; index++) {
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--fixed-adjust"
+                );
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--prominent-fixed-adjust"
+                );
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--dense-fixed-adjust"
+                );
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--prominent-dense-fixed-adjust"
+                );
+                adjustment_content[index].classList.remove(
+                    "mdc-top-app-bar--short-fixed-adjust"
+                );
+                adjustment_content[index].classList.add(
+                    this.dotNetObjOptions.adjustment
+                );
+            }
+        }
+    }
+    determineNavTriggerVisibility() {
+        if (this.elemRefs.navTrigger && Mobsites.Blazor.AppDrawers) {
+            // Cannot know which App Drawer this is associated with, so...
+            window.Mobsites.Blazor.AppDrawers.store.forEach(drawer => {
+                if (drawer)
+                    drawer.determineTriggerVisibility();
+            });
+        }
+    }
+    determineActionsVisibility() {
+        // Every child but first in specified container gets class assignment or un-assignment.
+        if (this.elemRefs.actions && this.elemRefs.actions.children) {
+            for (let index = 1; index < this.elemRefs.actions.children.length; index++) {
+                if (this.dotNetObjOptions.showActionsAlways) {
+                    this.elemRefs.actions.children[index].classList.remove(
+                        "mdc-top-app-bar--hide"
+                    );
+                } else {
+                    this.elemRefs.actions.children[index].classList.add("mdc-top-app-bar--hide");
+                }
+            }
+        }
+    }
+    initScrollEvents() {
+        var self = this;
+        if (self.elemRefs.navTrigger) {
+            self.elemRefs.navTrigger.addEventListener("click", () => {
+                if (self && self.dotNetObjOptions.scrollToTop) {
+                    window.scrollTo(0, 0);
+                }
+            });
+        }
+        const mainContent =
+            document.getElementById("mobsites-blazor-main-content") ||
+            document.querySelector(".mobsites-blazor-main-content");
+        if (mainContent) {
+            self.setScrollTarget(mainContent);
+        }
+    }
+}

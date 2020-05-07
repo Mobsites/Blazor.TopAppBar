@@ -1,26 +1,32 @@
-@inherits MainComponent
+@inherits StatefulComponent
 
 @{
-  string variant = this.Variant switch
-  {
-    Variants.Standard => null,
-    Variants.Fixed => "mdc-top-app-bar--fixed",
-    Variants.Prominent => "mdc-top-app-bar--prominent",
-    Variants.FixedProminent => "mdc-top-app-bar--fixed mdc-top-app-bar--prominent",
-    Variants.Dense => "mdc-top-app-bar--dense",
-    Variants.FixedDense => "mdc-top-app-bar--fixed mdc-top-app-bar--dense",
-    Variants.ProminentDense => "mdc-top-app-bar--prominent mdc-top-app-bar--dense",
-    Variants.FixedProminentDense => "mdc-top-app-bar--fixed mdc-top-app-bar--prominent mdc-top-app-bar--dense",
-    Variants.Short => "mdc-top-app-bar--short",
-    Variants.ShortAlways => "mdc-top-app-bar--short mdc-top-app-bar--short-collapsed",
-    _ => null
-  };
+    string id = string.IsNullOrWhiteSpace(Id)
+        ? "blazor-app-drawer"
+        : Id;
+
+    string variant = this.Variant switch
+    {
+        Variants.Standard => null,
+        Variants.Fixed => "mdc-top-app-bar--fixed",
+        Variants.Prominent => "mdc-top-app-bar--prominent",
+        Variants.FixedProminent => "mdc-top-app-bar--fixed mdc-top-app-bar--prominent",
+        Variants.Dense => "mdc-top-app-bar--dense",
+        Variants.FixedDense => "mdc-top-app-bar--fixed mdc-top-app-bar--dense",
+        Variants.ProminentDense => "mdc-top-app-bar--prominent mdc-top-app-bar--dense",
+        Variants.FixedProminentDense => "mdc-top-app-bar--fixed mdc-top-app-bar--prominent mdc-top-app-bar--dense",
+        Variants.Short => "mdc-top-app-bar--short",
+        Variants.ShortAlways => "mdc-top-app-bar--short mdc-top-app-bar--short-collapsed",
+        _ => null
+    };
+
+    string aboveAppDrawer = AboveAppDrawer ? "mdc-top-app-bar--above-mdc-app-drawer" : "mdc-top-app-bar--with-mdc-app-drawer";
 }
 
-<header class="mdc-top-app-bar @variant @Class" style="@Style" @attributes="@ExtraAttributes">
-  <div class="mdc-top-app-bar__row">
-    <CascadingValue Value="this">
-      @ChildContent
-    </CascadingValue>
-  </div>
+<header @ref="ElemRef" id="@id" class="mdc-top-app-bar @variant @aboveAppDrawer @Class" style="@Style" @attributes="@ExtraAttributes">
+    <div class="mdc-top-app-bar__row">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </div>
 </header>
