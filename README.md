@@ -29,7 +29,7 @@ Check out its source code [here](./samples).
 
 The design and development of this Blazor component was heavily guided by Microsoft's [Steve Sanderson](https://blog.stevensanderson.com/). He outlines a superb approach to building and deploying a reusable component library in this [presentation](https://youtu.be/QnBYmTpugz0) and [example](https://github.com/SteveSandersonMS/presentation-2020-01-NdcBlazorComponentLibraries).
 
-As for the non-C# implementation of this library, obviously Google's MDC Navigation Drawer [docs](https://material.io/develop/web/components/top-app-bar/) were consulted.
+As for the non-C# implementation of this library, obviously Google's MDC Navigation Top App Bar [docs](https://material.io/develop/web/components/top-app-bar/) were consulted.
 
 All of its variants were included in this component.
 
