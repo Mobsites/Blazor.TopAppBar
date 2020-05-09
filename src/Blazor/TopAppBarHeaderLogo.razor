@@ -4,11 +4,9 @@
     string css = HideOnSmallDevices ? "mdc-top-app-bar--hide" : string.Empty;
 }
 
-<div class="mdc-top-app-bar__title  @css">
+<div class="mdc-top-app-bar__title  @css @Class" style="@Style" @attributes="@ExtraAttributes">
     <img src="@Src" 
             width="@Width" 
             height="@Height" 
-            class="mdc-top-app-bar--logo @Class" 
-            style="@Style" 
-            @attributes="@ExtraAttributes" />
+            class="mdc-top-app-bar--logo" />
 </div>
