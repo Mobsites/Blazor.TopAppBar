@@ -35,10 +35,4 @@ All of its variants were included in this component.
 
 ## Getting Started
 
-1. Add [Nuget](https://www.nuget.org/packages/Mobsites.Blazor.TopAppBar/) package:
-
-```shell
-dotnet add package Mobsites.Blazor.TopAppBar
-```
-
-Next check out our new [docs](https://www.mobsites.com/blazor/top-app-bar) to help you get started.
+Check out our new [docs](https://www.mobsites.com/blazor/top-app-bar) to help you get started.
