@@ -1,48 +1,4 @@
-<TopAppBar
-    AboveAppDrawer
-    KeepState
-    Id="Demo"
-    @bind-Variant="@MainLayout.Variant"
-    @bind-Color="@MainLayout.Color"
-    @bind-BackgroundMode="@MainLayout.BackgroundMode"
-    @bind-BackgroundColorDirection="@MainLayout.BackgroundColorDirection"
-    @bind-BackgroundColorStart="@MainLayout.BackgroundColorStart" 
-    @bind-BackgroundColorEnd="@MainLayout.BackgroundColorEnd"
-    BackgroundImage="_content/Shared/skyline.jpg"
-    @bind-ScrollToTop="@MainLayout.ScrollToTop">
-    <TopAppBarHeader>
-        <TopAppBarHeaderNavTrigger>
-            @{
-                string textColor = MainLayout.BackgroundMode == BackgroundModes.Light || MainLayout.BackgroundMode == BackgroundModes.Image ? "text-body" : "text-light";
-            }
-            <button class="navbar-toggler bg-transparent no-outline" @onclick="ToggleNavMenu">
-                <span class="oi oi-menu align-middle @textColor"></span>
-            </button>
-        </TopAppBarHeaderNavTrigger>
-        <TopAppBarHeaderLogo Src="_content/Shared/blazor.png" @bind-HideOnSmallDevices="@MainLayout.HideImage" />
-        <TopAppBarHeaderTitle @bind-HideOnSmallDevices="@MainLayout.HideTitle">Demo</TopAppBarHeaderTitle>
-    </TopAppBarHeader>
-    <TopAppBarActions @bind-ShowActionsAlways="@MainLayout.ShowActionsAlways">
-        @{
-            string image = MainLayout.BackgroundMode == BackgroundModes.Light || MainLayout.BackgroundMode == BackgroundModes.Image ? "dark" : "light";
-        }
-        <TopAppBarAction>
-            <a href="https://github.com/Mobsites/Blazor.NameOfComponent" target="_blank">
-                <img src="_content/Shared/@(image)-github.png" width="24" height="24" />
-            </a>
-        </TopAppBarAction>
-        <TopAppBarAction>
-             <a href="https://github.com/Mobsites" target="_blank">
-                <img src="_content/Shared/mobsites-logo.png" width="24" height="24" />
-            </a>
-        </TopAppBarAction>
-        <TopAppBarAction>
-            <a href="https://github.com/allan-mobley-jr" target="_blank">
-                <img src="_content/Shared/me.png" width="24" height="24" />
-            </a>
-        </TopAppBarAction>
-    </TopAppBarActions>
-</TopAppBar>
+
 
 <!-- Add adjustment class to prevent TopAppBar from hiding some of this content -->
 <div class="@NavMenuCssClass @TopAppBar.AdjustmentMarkerClass" @onclick="ToggleNavMenu">
@@ -77,7 +33,7 @@
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
+    public void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }

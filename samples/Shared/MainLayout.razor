@@ -1,10 +1,54 @@
 @inherits LayoutComponentBase
 
+<TopAppBar
+    AboveAppDrawer
+    KeepState
+    Id="Demo"
+    @bind-Variant="@Variant"
+    @bind-Color="@Color"
+    @bind-BackgroundMode="@BackgroundMode"
+    @bind-BackgroundColorDirection="@BackgroundColorDirection"
+    @bind-BackgroundColorStart="@BackgroundColorStart" 
+    @bind-BackgroundColorEnd="@BackgroundColorEnd"
+    BackgroundImage="_content/Shared/skyline.jpg"
+    @bind-ScrollToTop="@ScrollToTop">
+    <TopAppBarHeader>
+        <TopAppBarHeaderNavTrigger>
+            @{
+                string textColor = BackgroundMode == BackgroundModes.Light || BackgroundMode == BackgroundModes.Image ? "text-body" : "text-light";
+            }
+            <button class="navbar-toggler bg-transparent no-outline" @onclick="navMenu.ToggleNavMenu">
+                <span class="oi oi-menu align-middle @textColor"></span>
+            </button>
+        </TopAppBarHeaderNavTrigger>
+        <TopAppBarHeaderLogo Src="_content/Shared/blazor.png" @bind-HideOnSmallDevices="@HideImage" />
+        <TopAppBarHeaderTitle @bind-HideOnSmallDevices="@HideTitle">Demo</TopAppBarHeaderTitle>
+    </TopAppBarHeader>
+    <TopAppBarActions @bind-ShowActionsAlways="@ShowActionsAlways">
+        @{
+            string image = BackgroundMode == BackgroundModes.Light || BackgroundMode == BackgroundModes.Image ? "dark" : "light";
+        }
+        <TopAppBarAction>
+            <a href="https://github.com/Mobsites/Blazor.NameOfComponent" target="_blank">
+                <img src="_content/Shared/@(image)-github.png" width="24" height="24" />
+            </a>
+        </TopAppBarAction>
+        <TopAppBarAction>
+             <a href="https://github.com/Mobsites" target="_blank">
+                <img src="_content/Shared/mobsites-logo.png" width="24" height="24" />
+            </a>
+        </TopAppBarAction>
+        <TopAppBarAction>
+            <a href="https://github.com/allan-mobley-jr" target="_blank">
+                <img src="_content/Shared/me.png" width="24" height="24" />
+            </a>
+        </TopAppBarAction>
+    </TopAppBarActions>
+</TopAppBar>
 
-
-<div class="sidebar">
+<div class="sidebar @TopAppBar.AdjustmentMarkerClass">
     <CascadingValue Value="this">
-       <NavMenu />
+       <NavMenu @ref="@navMenu" />
     </CascadingValue>
 </div>
 
@@ -18,6 +62,7 @@
 </div>
 
 @code {
+    NavMenu navMenu;
     private TopAppBar.Variants variant = TopAppBar.Variants.Standard;
     public TopAppBar.Variants Variant
     {
