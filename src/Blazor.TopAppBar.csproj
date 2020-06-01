@@ -16,17 +16,17 @@
     <IsPackable>true</IsPackable>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>mobsites-logo.png</PackageIcon>
-    <PackageReleaseNotes>Moved from applying built-in style properties on logo to its container.</PackageReleaseNotes>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageReleaseNotes>Updated dependencies.</PackageReleaseNotes>
+    <PackageVersion>1.0.2</PackageVersion>
     <PackageTags>blazor;mdc;app bar;material;design;google;component</PackageTags>
-    <PackageProjectUrl>https://www.mobsites.com</PackageProjectUrl>
+    <PackageProjectUrl>https://www.mobsites.com/blazor/top-app-bar</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Mobsites/Blazor.TopAppBar</RepositoryUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mobsites.Blazor.BaseComponents" Version="1.0.2" />
+    <PackageReference Include="Mobsites.Blazor.BaseComponents" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>

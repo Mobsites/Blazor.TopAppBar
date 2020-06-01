@@ -14,7 +14,7 @@ steps:
   displayName: 'Set SDK'
   inputs:
     packageType: sdk
-    version: 3.1.201
+    version: 3.1.300
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 # Build samples. Not strictly required to create the package,
